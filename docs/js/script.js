@@ -185,6 +185,20 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+function plus(a, b) {
+  return {
+    0: a[0] + b[0],
+    1: a[1] + b[1]
+  };
+}
+
+function mult(a, b) {
+  return {
+    0: a[0] * b[0] - a[1] * b[1],
+    1: a[0] * b[1] + a[1] * b[0]
+  };
+}
+
 var Index = function () {
   function Index() {
     var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -197,7 +211,45 @@ var Index = function () {
   _createClass(Index, [{
     key: 'initialize',
     value: function initialize() {
-      console.log('index page');
+      var containerElm = document.querySelector('.container');
+
+      var canvas = document.createElement('canvas');
+      canvas.width = 256;
+      canvas.height = 256;
+
+      containerElm.append(canvas);
+
+      var ctx = canvas.getContext('2d');
+
+      var tmp = [[0, 0]];
+
+      for (var i = 0; i < 12; i++) {
+        tmp = this.iterate(tmp);
+      }
+
+      var fractal = tmp;
+
+      fractal.forEach(function (coord) {
+        ctx.fillRect(coord[0] * 128 + 128, coord[1] * 128 + 128, 1, 1);
+      });
+    }
+  }, {
+    key: 'iterate',
+    value: function iterate(ptArr) {
+      var _this = this;
+
+      var ret = [];
+      ptArr.forEach(function (coord) {
+        var tmp = _this.ifs(coord);
+        ret = ret.concat(tmp);
+      });
+
+      return ret;
+    }
+  }, {
+    key: 'ifs',
+    value: function ifs(pt) {
+      return [mult(pt, [0.5, 0.5]), plus(mult(pt, [-0.5, 0.5]), [0.5, 0.5])];
     }
   }]);
 
