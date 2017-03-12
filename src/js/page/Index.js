@@ -48,6 +48,20 @@ export default class Index {
 
     this.ctx = this.canvas.getContext('2d');
 
+    $(containerElm).on('mousemove', (evt) => {
+      this.ctx.clearRect(0, 0, 256, 256);
+
+      const x = evt.pageX;
+      const y = evt.pageY;
+
+      p[0][1][0] = p[1][0][0] = (x - 128) / 128;
+      p[0][1][1] = p[1][0][1] = (y - 128) / 128;
+
+      this.ctrlPlot();
+
+      this.plot();
+    });
+
     this.ctrlPlot();
 
     this.plot();

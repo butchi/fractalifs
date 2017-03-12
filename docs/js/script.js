@@ -220,6 +220,8 @@ var Index = function () {
   _createClass(Index, [{
     key: 'initialize',
     value: function initialize() {
+      var _this = this;
+
       var containerElm = document.querySelector('.container');
 
       this.canvas = document.createElement('canvas');
@@ -230,6 +232,20 @@ var Index = function () {
 
       this.ctx = this.canvas.getContext('2d');
 
+      $(containerElm).on('mousemove', function (evt) {
+        _this.ctx.clearRect(0, 0, 256, 256);
+
+        var x = evt.pageX;
+        var y = evt.pageY;
+
+        p[0][1][0] = p[1][0][0] = (x - 128) / 128;
+        p[0][1][1] = p[1][0][1] = (y - 128) / 128;
+
+        _this.ctrlPlot();
+
+        _this.plot();
+      });
+
       this.ctrlPlot();
 
       this.plot();
@@ -237,20 +253,20 @@ var Index = function () {
   }, {
     key: 'ctrlPlot',
     value: function ctrlPlot() {
-      var _this = this;
+      var _this2 = this;
 
       p.forEach(function (line) {
-        _this.ctx.beginPath();
-        _this.ctx.moveTo(line[0][0] * 128 + 128, line[0][1] * 128 + 128);
-        _this.ctx.lineTo(line[1][0] * 128 + 128, line[1][1] * 128 + 128);
-        _this.ctx.strokeStyle = 0xff0000;
-        _this.ctx.stroke();
+        _this2.ctx.beginPath();
+        _this2.ctx.moveTo(line[0][0] * 128 + 128, line[0][1] * 128 + 128);
+        _this2.ctx.lineTo(line[1][0] * 128 + 128, line[1][1] * 128 + 128);
+        _this2.ctx.strokeStyle = 0xff0000;
+        _this2.ctx.stroke();
       });
     }
   }, {
     key: 'plot',
     value: function plot() {
-      var _this2 = this;
+      var _this3 = this;
 
       var tmp = [[0, 0]];
 
@@ -261,17 +277,17 @@ var Index = function () {
       var fractal = tmp;
 
       fractal.forEach(function (coord) {
-        _this2.ctx.fillRect(coord[0] * 128 + 128, coord[1] * 128 + 128, 1, 1);
+        _this3.ctx.fillRect(coord[0] * 128 + 128, coord[1] * 128 + 128, 1, 1);
       });
     }
   }, {
     key: 'iterate',
     value: function iterate(ptArr) {
-      var _this3 = this;
+      var _this4 = this;
 
       var ret = [];
       ptArr.forEach(function (coord) {
-        var tmp = _this3.ifs(coord);
+        var tmp = _this4.ifs(coord);
         ret = ret.concat(tmp);
       });
 
