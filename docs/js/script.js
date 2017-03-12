@@ -185,10 +185,19 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+var p = [[[0, 0], [0.5, 0.5]], [[0.5, 0.5], [1, 0]]];
+
 function plus(a, b) {
   return {
     0: a[0] + b[0],
     1: a[1] + b[1]
+  };
+}
+
+function sub(a, b) {
+  return {
+    0: a[0] - b[0],
+    1: a[1] - b[1]
   };
 }
 
@@ -213,13 +222,35 @@ var Index = function () {
     value: function initialize() {
       var containerElm = document.querySelector('.container');
 
-      var canvas = document.createElement('canvas');
-      canvas.width = 256;
-      canvas.height = 256;
+      this.canvas = document.createElement('canvas');
+      this.canvas.width = 256;
+      this.canvas.height = 256;
 
-      containerElm.append(canvas);
+      containerElm.append(this.canvas);
 
-      var ctx = canvas.getContext('2d');
+      this.ctx = this.canvas.getContext('2d');
+
+      this.ctrlPlot();
+
+      this.plot();
+    }
+  }, {
+    key: 'ctrlPlot',
+    value: function ctrlPlot() {
+      var _this = this;
+
+      p.forEach(function (line) {
+        _this.ctx.beginPath();
+        _this.ctx.moveTo(line[0][0] * 128 + 128, line[0][1] * 128 + 128);
+        _this.ctx.lineTo(line[1][0] * 128 + 128, line[1][1] * 128 + 128);
+        _this.ctx.strokeStyle = 0xff0000;
+        _this.ctx.stroke();
+      });
+    }
+  }, {
+    key: 'plot',
+    value: function plot() {
+      var _this2 = this;
 
       var tmp = [[0, 0]];
 
@@ -230,17 +261,17 @@ var Index = function () {
       var fractal = tmp;
 
       fractal.forEach(function (coord) {
-        ctx.fillRect(coord[0] * 128 + 128, coord[1] * 128 + 128, 1, 1);
+        _this2.ctx.fillRect(coord[0] * 128 + 128, coord[1] * 128 + 128, 1, 1);
       });
     }
   }, {
     key: 'iterate',
     value: function iterate(ptArr) {
-      var _this = this;
+      var _this3 = this;
 
       var ret = [];
       ptArr.forEach(function (coord) {
-        var tmp = _this.ifs(coord);
+        var tmp = _this3.ifs(coord);
         ret = ret.concat(tmp);
       });
 
@@ -249,7 +280,13 @@ var Index = function () {
   }, {
     key: 'ifs',
     value: function ifs(pt) {
-      return [mult(pt, [0.5, 0.5]), plus(mult(pt, [-0.5, 0.5]), [0.5, 0.5])];
+      var ret = [];
+
+      p.forEach(function (line) {
+        ret.push(plus(mult(sub(line[1], line[0]), pt), line[0]));
+      });
+
+      return ret;
     }
   }]);
 
