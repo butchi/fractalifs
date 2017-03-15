@@ -45,14 +45,14 @@ export default class Index {
 
     ns.gArr = [];
 
-    ns.currentGenerator = new Generator();
+    $('.btn-add-generator').on('click', (_evt) => {
+      ns.currentGenerator = new Generator();
 
-    ns.gArr.push(ns.currentGenerator);
+      ns.gArr.push(ns.currentGenerator);
+    });
 
     this.$container.on('set-line', () => {
       this.plot();
-
-      ns.currentGenerator = new Generator();
 
       ns.gArr.push(ns.currentGenerator);
     });

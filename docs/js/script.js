@@ -394,14 +394,14 @@ var Index = function () {
 
       _ns2.default.gArr = [];
 
-      _ns2.default.currentGenerator = new _Generator2.default();
+      $('.btn-add-generator').on('click', function (_evt) {
+        _ns2.default.currentGenerator = new _Generator2.default();
 
-      _ns2.default.gArr.push(_ns2.default.currentGenerator);
+        _ns2.default.gArr.push(_ns2.default.currentGenerator);
+      });
 
       this.$container.on('set-line', function () {
         _this.plot();
-
-        _ns2.default.currentGenerator = new _Generator2.default();
 
         _ns2.default.gArr.push(_ns2.default.currentGenerator);
       });
