@@ -121,3 +121,7 @@ body.page-index {
     body.page-index .ctrl-panel line {
       stroke: #000;
       stroke-width: 2; }
+    body.page-index .ctrl-panel .start-pt {
+      r: 5; }
+    body.page-index .ctrl-panel .end-pt {
+      r: 5; }

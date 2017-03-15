@@ -31,16 +31,20 @@ var Generator = function () {
 
       var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-      var g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-      this.$elm = $(g);
+      this.arrow = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      this.$elm = $(this.arrow);
 
       this.line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
 
-      g.append(this.line);
+      this.startPt = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      this.endPt = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+
+      this.startPt.setAttribute('class', 'start-pt');
+      this.endPt.setAttribute('class', 'end-pt');
 
       this.$container = $('.container');
 
-      _ns2.default.$panel.append(g);
+      _ns2.default.$panel.append(this.arrow);
 
       this.point = opts.point || [[], []];
 
@@ -67,6 +71,15 @@ var Generator = function () {
       this.line.setAttribute('y1', y);
       this.line.setAttribute('x2', x);
       this.line.setAttribute('y2', y);
+
+      this.arrow.append(this.line);
+
+      this.startPt.setAttribute('cx', x);
+      this.startPt.setAttribute('cy', y);
+      this.endPt.setAttribute('cx', x);
+      this.endPt.setAttribute('cy', y);
+
+      this.arrow.append(this.startPt);
 
       this.$container.on('mousemove', function (evt) {
         _this2.touchMoveHandler(evt);
@@ -101,6 +114,11 @@ var Generator = function () {
 
       this.line.setAttribute('x2', x);
       this.line.setAttribute('y2', y);
+
+      this.endPt.setAttribute('cx', x);
+      this.endPt.setAttribute('cy', y);
+
+      this.arrow.append(this.endPt);
 
       this.$container.trigger('set-line');
     }

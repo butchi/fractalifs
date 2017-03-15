@@ -6,16 +6,20 @@ export default class Generator {
   }
 
   initialize(opts = {}) {
-    let g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-    this.$elm = $(g);
+    this.arrow = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    this.$elm = $(this.arrow);
 
     this.line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
 
-    g.append(this.line);
+    this.startPt = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    this.endPt = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+
+    this.startPt.setAttribute('class', 'start-pt');
+    this.endPt.setAttribute('class', 'end-pt');
 
     this.$container = $('.container');
 
-    ns.$panel.append(g);
+    ns.$panel.append(this.arrow);
 
     this.point = opts.point || [[], []];
 
@@ -43,6 +47,15 @@ export default class Generator {
     this.line.setAttribute('y1', y);
     this.line.setAttribute('x2', x);
     this.line.setAttribute('y2', y);
+
+    this.arrow.append(this.line);
+
+    this.startPt.setAttribute('cx', x);
+    this.startPt.setAttribute('cy', y);
+    this.endPt.setAttribute('cx', x);
+    this.endPt.setAttribute('cy', y);
+
+    this.arrow.append(this.startPt);
 
     this.$container.on('mousemove', (evt) => {
       this.touchMoveHandler(evt);
@@ -75,6 +88,11 @@ export default class Generator {
 
     this.line.setAttribute('x2', x);
     this.line.setAttribute('y2', y);
+
+    this.endPt.setAttribute('cx', x);
+    this.endPt.setAttribute('cy', y);
+
+    this.arrow.append(this.endPt);
 
     this.$container.trigger('set-line');
   }
