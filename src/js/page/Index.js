@@ -28,13 +28,18 @@ export default class Index {
   }
 
   initialize() {
-    let containerElm = document.querySelector('.container');
+    this.$container = $('.container');
 
     this.canvas = document.createElement('canvas');
     this.canvas.width = 256;
     this.canvas.height = 256;
+    $(this.canvas).addClass('elm-canvas');
 
-    containerElm.append(this.canvas);
+    this.$container.append(this.canvas);
+
+    ns.$panel = $('.ctrl-panel');
+
+    this.$container.append(ns.$panel);
 
     this.ctx = this.canvas.getContext('2d');
 
@@ -44,7 +49,7 @@ export default class Index {
 
     ns.gArr.push(ns.currentGenerator);
 
-    $(containerElm).on('set-line', () => {
+    this.$container.on('set-line', () => {
       this.plot();
 
       ns.currentGenerator = new Generator();

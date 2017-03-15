@@ -31,13 +31,19 @@ var Generator = function () {
 
       var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-      this.$elm = $({});
+      this.$elm = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+
+      this.line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+
+      this.$elm.append(this.line);
+
+      this.$container = $('.container');
+
+      _ns2.default.$panel.append(this.$elm);
 
       this.point = opts.point || [[], []];
 
-      this.containerElm = document.querySelector('.container');
-
-      $(this.containerElm).one('mousedown', function (evt) {
+      this.$container.one('mousedown', function (evt) {
         _this.touchDownHandler(evt);
       });
     }
@@ -56,7 +62,12 @@ var Generator = function () {
       this.point[0][0] = (x - 128) / 128;
       this.point[0][1] = (y - 128) / 128;
 
-      $(this.containerElm).one('mouseup', function (evt) {
+      this.line.setAttribute('x1', x);
+      this.line.setAttribute('y1', y);
+      this.line.setAttribute('x2', x);
+      this.line.setAttribute('y2', y);
+
+      this.$container.one('mouseup', function (evt) {
         _this2.touchUpHandler(evt);
       });
     }
@@ -69,7 +80,10 @@ var Generator = function () {
       this.point[1][0] = (x - 128) / 128;
       this.point[1][1] = (y - 128) / 128;
 
-      $(this.containerElm).trigger('set-line');
+      this.line.setAttribute('x2', x);
+      this.line.setAttribute('y2', y);
+
+      this.$container.trigger('set-line');
     }
   }, {
     key: 'p',
@@ -309,13 +323,18 @@ var Index = function () {
     value: function initialize() {
       var _this = this;
 
-      var containerElm = document.querySelector('.container');
+      this.$container = $('.container');
 
       this.canvas = document.createElement('canvas');
       this.canvas.width = 256;
       this.canvas.height = 256;
+      $(this.canvas).addClass('elm-canvas');
 
-      containerElm.append(this.canvas);
+      this.$container.append(this.canvas);
+
+      _ns2.default.$panel = $('.ctrl-panel');
+
+      this.$container.append(_ns2.default.$panel);
 
       this.ctx = this.canvas.getContext('2d');
 
@@ -325,7 +344,7 @@ var Index = function () {
 
       _ns2.default.gArr.push(_ns2.default.currentGenerator);
 
-      $(containerElm).on('set-line', function () {
+      this.$container.on('set-line', function () {
         _this.plot();
 
         _ns2.default.currentGenerator = new _Generator2.default();
