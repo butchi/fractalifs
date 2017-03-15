@@ -44,7 +44,7 @@ var Generator = function () {
 
       this.$container = $('.container');
 
-      _ns2.default.$panel.append(this.arrow);
+      _ns2.default.$ctrlCanvas.append(this.arrow);
 
       this.point = opts.point || [[], []];
 
@@ -87,6 +87,23 @@ var Generator = function () {
 
       this.$container.one('mouseup', function (evt) {
         _this2.touchUpHandler(evt);
+      });
+
+      $(this.startPt).one('mousedown', function (evt) {
+        $(_this2.startPt).on('mouseup', function (evt) {
+          $(_this2.startPt).off('mousemove');
+        });
+
+        $(_this2.startPt).on('mousemove', function (evt) {
+          var x = evt.pageX;
+          var y = evt.pageY;
+
+          _this2.point[0][0] = (x - 128) / 128;
+          _this2.point[0][1] = (y - 128) / 128;
+
+          _this2.line.setAttribute('x1', x);
+          _this2.line.setAttribute('y1', y);
+        });
       });
     }
   }, {
@@ -369,9 +386,9 @@ var Index = function () {
 
       this.$container.append(this.canvas);
 
-      _ns2.default.$panel = $('.ctrl-panel');
+      _ns2.default.$ctrlCanvas = $('.ctrl-canvas');
 
-      this.$container.append(_ns2.default.$panel);
+      this.$container.append(_ns2.default.$ctrlCanvas);
 
       this.ctx = this.canvas.getContext('2d');
 

@@ -19,7 +19,7 @@ export default class Generator {
 
     this.$container = $('.container');
 
-    ns.$panel.append(this.arrow);
+    ns.$ctrlCanvas.append(this.arrow);
 
     this.point = opts.point || [[], []];
 
@@ -63,6 +63,23 @@ export default class Generator {
 
     this.$container.one('mouseup', (evt) => {
       this.touchUpHandler(evt);
+    });
+
+    $(this.startPt).one('mousedown', (evt) => {
+      $(this.startPt).on('mouseup', (evt) => {
+        $(this.startPt).off('mousemove');
+      });
+
+      $(this.startPt).on('mousemove', (evt) => {
+        const x = evt.pageX;
+        const y = evt.pageY;
+
+        this.point[0][0] = (x - 128) / 128;
+        this.point[0][1] = (y - 128) / 128;
+
+        this.line.setAttribute('x1', x);
+        this.line.setAttribute('y1', y);
+      });
     });
   }
 

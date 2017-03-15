@@ -112,16 +112,16 @@ body.page-index {
   background-color: #ccc; }
   body.page-index .elm-canvas {
     background-color: white; }
-  body.page-index .ctrl-panel {
+  body.page-index .ctrl-canvas {
     position: absolute;
     left: 0;
     top: 0;
     width: 256px;
     height: 256px; }
-    body.page-index .ctrl-panel line {
+    body.page-index .ctrl-canvas line {
       stroke: #000;
       stroke-width: 2; }
-    body.page-index .ctrl-panel .start-pt {
+    body.page-index .ctrl-canvas .start-pt {
       r: 5; }
-    body.page-index .ctrl-panel .end-pt {
+    body.page-index .ctrl-canvas .end-pt {
       r: 5; }

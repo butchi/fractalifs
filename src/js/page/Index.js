@@ -37,9 +37,9 @@ export default class Index {
 
     this.$container.append(this.canvas);
 
-    ns.$panel = $('.ctrl-panel');
+    ns.$ctrlCanvas = $('.ctrl-canvas');
 
-    this.$container.append(ns.$panel);
+    this.$container.append(ns.$ctrlCanvas);
 
     this.ctx = this.canvas.getContext('2d');
 
