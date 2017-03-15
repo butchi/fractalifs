@@ -1,15 +1,5 @@
 import ns from '../module/ns';
-
-let p = [
-  [
-    [0,   0  ],
-    [0.5, 0.5]
-  ],
-  [
-    [0.5, 0.5],
-    [1,   0  ]
-  ]
-];
+import Generator from '../module/Generator';
 
 function plus(a, b) {
   return {
@@ -48,39 +38,25 @@ export default class Index {
 
     this.ctx = this.canvas.getContext('2d');
 
-    $(containerElm).on('mousemove', (evt) => {
-      this.ctx.clearRect(0, 0, 256, 256);
+    ns.gArr = [];
 
-      const x = evt.pageX;
-      const y = evt.pageY;
+    ns.currentGenerator = new Generator();
 
-      p[0][1][0] = p[1][0][0] = (x - 128) / 128;
-      p[0][1][1] = p[1][0][1] = (y - 128) / 128;
+    ns.gArr.push(ns.currentGenerator);
 
-      this.ctrlPlot();
-
+    $(containerElm).on('set-line', () => {
       this.plot();
+
+      ns.currentGenerator = new Generator();
+
+      ns.gArr.push(ns.currentGenerator);
     });
-
-    this.ctrlPlot();
-
-    this.plot();
-  }
-
-  ctrlPlot() {
-    p.forEach((line) => {
-      this.ctx.beginPath();
-      this.ctx.moveTo(line[0][0] * 128 + 128, line[0][1] * 128 + 128);
-      this.ctx.lineTo(line[1][0] * 128 + 128, line[1][1] * 128 + 128);
-      this.ctx.strokeStyle = 0xff0000;
-      this.ctx.stroke();
-    })
   }
 
   plot() {
     let tmp = [[0, 0]];
 
-    for(let i = 0; i < 12; i++) {
+    for(let i = 0; i < 4; i++) {
       tmp = this.iterate(tmp);
     }
 
@@ -91,9 +67,9 @@ export default class Index {
     });
   }
 
-  iterate(ptArr) {
+  iterate(coordArr) {
     let ret = [];
-    ptArr.forEach((coord) => {
+    coordArr.forEach((coord) => {
       let tmp = this.ifs(coord);
       ret = ret.concat(tmp);
     });
@@ -104,8 +80,8 @@ export default class Index {
   ifs(pt) {
     let ret = [];
 
-    p.forEach((line) => {
-      ret.push(plus(mult(sub(line[1], line[0]), pt), line[0]));
+    ns.gArr.forEach((g) => {
+      ret.push(plus(mult(sub(g.p[1], g.p[0]), pt), g.p[0]));
     });
 
     return ret;

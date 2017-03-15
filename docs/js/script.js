@@ -7,6 +7,91 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _ns = require('./ns');
+
+var _ns2 = _interopRequireDefault(_ns);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Generator = function () {
+  function Generator() {
+    var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    _classCallCheck(this, Generator);
+
+    this.initialize(opts);
+  }
+
+  _createClass(Generator, [{
+    key: 'initialize',
+    value: function initialize() {
+      var _this = this;
+
+      var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+      this.$elm = $({});
+
+      this.point = opts.point || [[], []];
+
+      this.containerElm = document.querySelector('.container');
+
+      $(this.containerElm).one('mousedown', function (evt) {
+        _this.touchDownHandler(evt);
+      });
+    }
+  }, {
+    key: 'touchDownHandler',
+    value: function touchDownHandler(evt) {
+      var _this2 = this;
+
+      var ctx = _ns2.default.main.router.pageIndex.ctx;
+
+      ctx.clearRect(0, 0, 256, 256);
+
+      var x = evt.pageX;
+      var y = evt.pageY;
+
+      this.point[0][0] = (x - 128) / 128;
+      this.point[0][1] = (y - 128) / 128;
+
+      $(this.containerElm).one('mouseup', function (evt) {
+        _this2.touchUpHandler(evt);
+      });
+    }
+  }, {
+    key: 'touchUpHandler',
+    value: function touchUpHandler(evt) {
+      var x = evt.pageX;
+      var y = evt.pageY;
+
+      this.point[1][0] = (x - 128) / 128;
+      this.point[1][1] = (y - 128) / 128;
+
+      $(this.containerElm).trigger('set-line');
+    }
+  }, {
+    key: 'p',
+    get: function get() {
+      return this.point;
+    }
+  }]);
+
+  return Generator;
+}();
+
+exports.default = Generator;
+
+},{"./ns":4}],2:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _Router = require('./Router');
 
 var _Router2 = _interopRequireDefault(_Router);
@@ -44,7 +129,7 @@ var Main = function () {
 
 exports.default = Main;
 
-},{"./Router":2}],2:[function(require,module,exports){
+},{"./Router":3}],3:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -94,7 +179,7 @@ var Router = function () {
 
 exports.default = Router;
 
-},{"../page/Common":4,"../page/Index":5,"./ns":3}],3:[function(require,module,exports){
+},{"../page/Common":5,"../page/Index":6,"./ns":4}],4:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -109,7 +194,7 @@ window.App = window.App || {};
 var ns = window.App;
 exports.default = ns;
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -168,7 +253,7 @@ var Common = function () {
 
 exports.default = Common;
 
-},{"../module/ns":3}],5:[function(require,module,exports){
+},{"../module/ns":4}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -181,11 +266,13 @@ var _ns = require('../module/ns');
 
 var _ns2 = _interopRequireDefault(_ns);
 
+var _Generator = require('../module/Generator');
+
+var _Generator2 = _interopRequireDefault(_Generator);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var p = [[[0, 0], [0.5, 0.5]], [[0.5, 0.5], [1, 0]]];
 
 function plus(a, b) {
   return {
@@ -232,62 +319,45 @@ var Index = function () {
 
       this.ctx = this.canvas.getContext('2d');
 
-      $(containerElm).on('mousemove', function (evt) {
-        _this.ctx.clearRect(0, 0, 256, 256);
+      _ns2.default.gArr = [];
 
-        var x = evt.pageX;
-        var y = evt.pageY;
+      _ns2.default.currentGenerator = new _Generator2.default();
 
-        p[0][1][0] = p[1][0][0] = (x - 128) / 128;
-        p[0][1][1] = p[1][0][1] = (y - 128) / 128;
+      _ns2.default.gArr.push(_ns2.default.currentGenerator);
 
-        _this.ctrlPlot();
-
+      $(containerElm).on('set-line', function () {
         _this.plot();
-      });
 
-      this.ctrlPlot();
+        _ns2.default.currentGenerator = new _Generator2.default();
 
-      this.plot();
-    }
-  }, {
-    key: 'ctrlPlot',
-    value: function ctrlPlot() {
-      var _this2 = this;
-
-      p.forEach(function (line) {
-        _this2.ctx.beginPath();
-        _this2.ctx.moveTo(line[0][0] * 128 + 128, line[0][1] * 128 + 128);
-        _this2.ctx.lineTo(line[1][0] * 128 + 128, line[1][1] * 128 + 128);
-        _this2.ctx.strokeStyle = 0xff0000;
-        _this2.ctx.stroke();
+        _ns2.default.gArr.push(_ns2.default.currentGenerator);
       });
     }
   }, {
     key: 'plot',
     value: function plot() {
-      var _this3 = this;
+      var _this2 = this;
 
       var tmp = [[0, 0]];
 
-      for (var i = 0; i < 12; i++) {
+      for (var i = 0; i < 4; i++) {
         tmp = this.iterate(tmp);
       }
 
       var fractal = tmp;
 
       fractal.forEach(function (coord) {
-        _this3.ctx.fillRect(coord[0] * 128 + 128, coord[1] * 128 + 128, 1, 1);
+        _this2.ctx.fillRect(coord[0] * 128 + 128, coord[1] * 128 + 128, 1, 1);
       });
     }
   }, {
     key: 'iterate',
-    value: function iterate(ptArr) {
-      var _this4 = this;
+    value: function iterate(coordArr) {
+      var _this3 = this;
 
       var ret = [];
-      ptArr.forEach(function (coord) {
-        var tmp = _this4.ifs(coord);
+      coordArr.forEach(function (coord) {
+        var tmp = _this3.ifs(coord);
         ret = ret.concat(tmp);
       });
 
@@ -298,8 +368,8 @@ var Index = function () {
     value: function ifs(pt) {
       var ret = [];
 
-      p.forEach(function (line) {
-        ret.push(plus(mult(sub(line[1], line[0]), pt), line[0]));
+      _ns2.default.gArr.forEach(function (g) {
+        ret.push(plus(mult(sub(g.p[1], g.p[0]), pt), g.p[0]));
       });
 
       return ret;
@@ -311,7 +381,7 @@ var Index = function () {
 
 exports.default = Index;
 
-},{"../module/ns":3}],6:[function(require,module,exports){
+},{"../module/Generator":1,"../module/ns":4}],7:[function(require,module,exports){
 'use strict';
 
 var _ns = require('./module/ns');
@@ -328,4 +398,4 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 _ns2.default.main = new _Main2.default();
 
-},{"./module/Main":1,"./module/ns":3}]},{},[6]);
+},{"./module/Main":2,"./module/ns":4}]},{},[7]);
