@@ -56,9 +56,15 @@ export default class Index {
 
       ns.gArr.push(ns.currentGenerator);
     });
+
+    this.$container.on('replot-fractal', () => {
+      this.plot();
+    });
   }
 
   plot() {
+    this.ctx.clearRect(0, 0, 256, 256);
+
     let tmp = [[0, 0]];
 
     for(let i = 0; i < 4; i++) {

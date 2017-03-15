@@ -33,10 +33,6 @@ export default class Generator {
   }
 
   touchDownHandler(evt) {
-    let ctx = ns.main.router.pageIndex.ctx;
-
-    ctx.clearRect(0, 0, 256, 256);
-
     const x = evt.pageX;
     const y = evt.pageY;
 
@@ -65,12 +61,12 @@ export default class Generator {
       this.touchUpHandler(evt);
     });
 
-    $(this.startPt).one('mousedown', (evt) => {
+    $(this.startPt).on('mousedown', (evt) => {
       $(this.startPt).on('mouseup', (evt) => {
-        $(this.startPt).off('mousemove');
+        this.$container.off('mousemove');
       });
 
-      $(this.startPt).on('mousemove', (evt) => {
+      this.$container.on('mousemove', (evt) => {
         const x = evt.pageX;
         const y = evt.pageY;
 
@@ -79,6 +75,33 @@ export default class Generator {
 
         this.line.setAttribute('x1', x);
         this.line.setAttribute('y1', y);
+
+        this.startPt.setAttribute('cx', x);
+        this.startPt.setAttribute('cy', y);
+
+        this.$container.trigger('replot-fractal');
+      });
+    });
+
+    $(this.endPt).on('mousedown', (evt) => {
+      $(this.endPt).on('mouseup', (evt) => {
+        this.$container.off('mousemove');
+      });
+
+      this.$container.on('mousemove', (evt) => {
+        const x = evt.pageX;
+        const y = evt.pageY;
+
+        this.point[1][0] = (x - 128) / 128;
+        this.point[1][1] = (y - 128) / 128;
+
+        this.line.setAttribute('x2', x);
+        this.line.setAttribute('y2', y);
+
+        this.endPt.setAttribute('cx', x);
+        this.endPt.setAttribute('cy', y);
+
+        this.$container.trigger('replot-fractal');
       });
     });
   }

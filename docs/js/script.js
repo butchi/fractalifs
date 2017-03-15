@@ -57,10 +57,6 @@ var Generator = function () {
     value: function touchDownHandler(evt) {
       var _this2 = this;
 
-      var ctx = _ns2.default.main.router.pageIndex.ctx;
-
-      ctx.clearRect(0, 0, 256, 256);
-
       var x = evt.pageX;
       var y = evt.pageY;
 
@@ -89,12 +85,12 @@ var Generator = function () {
         _this2.touchUpHandler(evt);
       });
 
-      $(this.startPt).one('mousedown', function (evt) {
+      $(this.startPt).on('mousedown', function (evt) {
         $(_this2.startPt).on('mouseup', function (evt) {
-          $(_this2.startPt).off('mousemove');
+          _this2.$container.off('mousemove');
         });
 
-        $(_this2.startPt).on('mousemove', function (evt) {
+        _this2.$container.on('mousemove', function (evt) {
           var x = evt.pageX;
           var y = evt.pageY;
 
@@ -103,6 +99,33 @@ var Generator = function () {
 
           _this2.line.setAttribute('x1', x);
           _this2.line.setAttribute('y1', y);
+
+          _this2.startPt.setAttribute('cx', x);
+          _this2.startPt.setAttribute('cy', y);
+
+          _this2.$container.trigger('replot-fractal');
+        });
+      });
+
+      $(this.endPt).on('mousedown', function (evt) {
+        $(_this2.endPt).on('mouseup', function (evt) {
+          _this2.$container.off('mousemove');
+        });
+
+        _this2.$container.on('mousemove', function (evt) {
+          var x = evt.pageX;
+          var y = evt.pageY;
+
+          _this2.point[1][0] = (x - 128) / 128;
+          _this2.point[1][1] = (y - 128) / 128;
+
+          _this2.line.setAttribute('x2', x);
+          _this2.line.setAttribute('y2', y);
+
+          _this2.endPt.setAttribute('cx', x);
+          _this2.endPt.setAttribute('cy', y);
+
+          _this2.$container.trigger('replot-fractal');
         });
       });
     }
@@ -405,11 +428,17 @@ var Index = function () {
 
         _ns2.default.gArr.push(_ns2.default.currentGenerator);
       });
+
+      this.$container.on('replot-fractal', function () {
+        _this.plot();
+      });
     }
   }, {
     key: 'plot',
     value: function plot() {
       var _this2 = this;
+
+      this.ctx.clearRect(0, 0, 256, 256);
 
       var tmp = [[0, 0]];
 
