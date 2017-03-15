@@ -52,22 +52,23 @@ export default class Index {
     });
 
     this.$container.on('set-line', () => {
-      this.plot();
+      this.plot(6);
 
       ns.gArr.push(ns.currentGenerator);
     });
 
-    this.$container.on('replot-fractal', () => {
-      this.plot();
+    this.$container.on('replot-fractal', (_evt, iteration) => {
+      this.plot(iteration);
     });
   }
 
-  plot() {
+  // TODO: requestAnimationFrameで負荷軽減
+  plot(iteration = 0) {
     this.ctx.clearRect(0, 0, 256, 256);
 
     let tmp = [[0, 0]];
 
-    for(let i = 0; i < 4; i++) {
+    for(let i = 0; i < iteration; i++) {
       tmp = this.iterate(tmp);
     }
 

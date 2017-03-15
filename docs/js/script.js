@@ -88,6 +88,8 @@ var Generator = function () {
       $(this.startPt).on('mousedown', function (evt) {
         $(_this2.startPt).on('mouseup', function (evt) {
           _this2.$container.off('mousemove');
+
+          _this2.$container.trigger('replot-fractal', 6);
         });
 
         _this2.$container.on('mousemove', function (evt) {
@@ -103,13 +105,15 @@ var Generator = function () {
           _this2.startPt.setAttribute('cx', x);
           _this2.startPt.setAttribute('cy', y);
 
-          _this2.$container.trigger('replot-fractal');
+          _this2.$container.trigger('replot-fractal', 4);
         });
       });
 
       $(this.endPt).on('mousedown', function (evt) {
         $(_this2.endPt).on('mouseup', function (evt) {
           _this2.$container.off('mousemove');
+
+          _this2.$container.trigger('replot-fractal', 6);
         });
 
         _this2.$container.on('mousemove', function (evt) {
@@ -125,7 +129,7 @@ var Generator = function () {
           _this2.endPt.setAttribute('cx', x);
           _this2.endPt.setAttribute('cy', y);
 
-          _this2.$container.trigger('replot-fractal');
+          _this2.$container.trigger('replot-fractal', 4);
         });
       });
     }
@@ -424,25 +428,30 @@ var Index = function () {
       });
 
       this.$container.on('set-line', function () {
-        _this.plot();
+        _this.plot(6);
 
         _ns2.default.gArr.push(_ns2.default.currentGenerator);
       });
 
-      this.$container.on('replot-fractal', function () {
-        _this.plot();
+      this.$container.on('replot-fractal', function (_evt, iteration) {
+        _this.plot(iteration);
       });
     }
+
+    // TODO: requestAnimationFrameで負荷軽減
+
   }, {
     key: 'plot',
     value: function plot() {
       var _this2 = this;
 
+      var iteration = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+
       this.ctx.clearRect(0, 0, 256, 256);
 
       var tmp = [[0, 0]];
 
-      for (var i = 0; i < 4; i++) {
+      for (var i = 0; i < iteration; i++) {
         tmp = this.iterate(tmp);
       }
 
