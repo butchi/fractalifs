@@ -67,15 +67,33 @@ var Generator = function () {
       this.line.setAttribute('x2', x);
       this.line.setAttribute('y2', y);
 
+      this.$container.on('mousemove', function (evt) {
+        _this2.touchMoveHandler(evt);
+      });
+
       this.$container.one('mouseup', function (evt) {
         _this2.touchUpHandler(evt);
       });
+    }
+  }, {
+    key: 'touchMoveHandler',
+    value: function touchMoveHandler(evt) {
+      var x = evt.pageX;
+      var y = evt.pageY;
+
+      this.point[1][0] = (x - 128) / 128;
+      this.point[1][1] = (y - 128) / 128;
+
+      this.line.setAttribute('x2', x);
+      this.line.setAttribute('y2', y);
     }
   }, {
     key: 'touchUpHandler',
     value: function touchUpHandler(evt) {
       var x = evt.pageX;
       var y = evt.pageY;
+
+      this.$container.off('mousemove');
 
       this.point[1][0] = (x - 128) / 128;
       this.point[1][1] = (y - 128) / 128;

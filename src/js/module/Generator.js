@@ -43,14 +43,31 @@ export default class Generator {
     this.line.setAttribute('x2', x);
     this.line.setAttribute('y2', y);
 
+    this.$container.on('mousemove', (evt) => {
+      this.touchMoveHandler(evt);
+    });
+
     this.$container.one('mouseup', (evt) => {
       this.touchUpHandler(evt);
     });
   }
 
+  touchMoveHandler(evt) {
+    const x = evt.pageX;
+    const y = evt.pageY;
+
+    this.point[1][0] = (x - 128) / 128;
+    this.point[1][1] = (y - 128) / 128;
+
+    this.line.setAttribute('x2', x);
+    this.line.setAttribute('y2', y);
+  }
+
   touchUpHandler(evt) {
     const x = evt.pageX;
     const y = evt.pageY;
+
+    this.$container.off('mousemove');
 
     this.point[1][0] = (x - 128) / 128;
     this.point[1][1] = (y - 128) / 128;
