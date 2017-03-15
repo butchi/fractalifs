@@ -31,15 +31,16 @@ var Generator = function () {
 
       var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-      this.$elm = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      var g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      this.$elm = $(g);
 
       this.line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
 
-      this.$elm.append(this.line);
+      g.append(this.line);
 
       this.$container = $('.container');
 
-      _ns2.default.$panel.append(this.$elm);
+      _ns2.default.$panel.append(g);
 
       this.point = opts.point || [[], []];
 

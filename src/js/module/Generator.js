@@ -6,15 +6,16 @@ export default class Generator {
   }
 
   initialize(opts = {}) {
-    this.$elm = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    let g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    this.$elm = $(g);
 
     this.line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
 
-    this.$elm.append(this.line);
+    g.append(this.line);
 
     this.$container = $('.container');
 
-    ns.$panel.append(this.$elm);
+    ns.$panel.append(g);
 
     this.point = opts.point || [[], []];
 
