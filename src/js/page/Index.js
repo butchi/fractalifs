@@ -62,7 +62,6 @@ export default class Index {
     });
   }
 
-  // TODO: requestAnimationFrameで負荷軽減
   plot(iteration = 0) {
     let maxIteration = Math.floor(Math.log(MAX_POINTS) / Math.log(ns.gArr.length));
     iteration = Math.min(iteration, maxIteration);

@@ -437,9 +437,6 @@ var Index = function () {
         _this.plot(iteration);
       });
     }
-
-    // TODO: requestAnimationFrameで負荷軽減
-
   }, {
     key: 'plot',
     value: function plot() {
