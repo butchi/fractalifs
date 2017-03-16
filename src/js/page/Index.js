@@ -1,6 +1,8 @@
 import ns from '../module/ns';
 import Generator from '../module/Generator';
 
+const MAX_POINTS = 10000;
+
 function plus(a, b) {
   return {
     0: a[0] + b[0],
@@ -52,9 +54,7 @@ export default class Index {
     });
 
     this.$container.on('set-line', () => {
-      this.plot(6);
-
-      ns.gArr.push(ns.currentGenerator);
+      this.plot(12);
     });
 
     this.$container.on('replot-fractal', (_evt, iteration) => {
@@ -64,6 +64,8 @@ export default class Index {
 
   // TODO: requestAnimationFrameで負荷軽減
   plot(iteration = 0) {
+    let maxIteration = Math.floor(Math.log(MAX_POINTS) / Math.log(ns.gArr.length));
+    iteration = Math.min(iteration, maxIteration);
     this.ctx.clearRect(0, 0, 256, 256);
 
     let tmp = [[0, 0]];

@@ -89,7 +89,7 @@ var Generator = function () {
         $(_this2.startPt).on('mouseup', function (evt) {
           _this2.$container.off('mousemove');
 
-          _this2.$container.trigger('replot-fractal', 6);
+          _this2.$container.trigger('replot-fractal', 12);
         });
 
         _this2.$container.on('mousemove', function (evt) {
@@ -105,7 +105,7 @@ var Generator = function () {
           _this2.startPt.setAttribute('cx', x);
           _this2.startPt.setAttribute('cy', y);
 
-          _this2.$container.trigger('replot-fractal', 4);
+          _this2.$container.trigger('replot-fractal', 8);
         });
       });
 
@@ -113,7 +113,7 @@ var Generator = function () {
         $(_this2.endPt).on('mouseup', function (evt) {
           _this2.$container.off('mousemove');
 
-          _this2.$container.trigger('replot-fractal', 6);
+          _this2.$container.trigger('replot-fractal', 12);
         });
 
         _this2.$container.on('mousemove', function (evt) {
@@ -129,7 +129,7 @@ var Generator = function () {
           _this2.endPt.setAttribute('cx', x);
           _this2.endPt.setAttribute('cy', y);
 
-          _this2.$container.trigger('replot-fractal', 4);
+          _this2.$container.trigger('replot-fractal', 8);
         });
       });
     }
@@ -369,6 +369,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+var MAX_POINTS = 10000;
+
 function plus(a, b) {
   return {
     0: a[0] + b[0],
@@ -428,9 +430,7 @@ var Index = function () {
       });
 
       this.$container.on('set-line', function () {
-        _this.plot(6);
-
-        _ns2.default.gArr.push(_ns2.default.currentGenerator);
+        _this.plot(12);
       });
 
       this.$container.on('replot-fractal', function (_evt, iteration) {
@@ -447,6 +447,8 @@ var Index = function () {
 
       var iteration = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
 
+      var maxIteration = Math.floor(Math.log(MAX_POINTS) / Math.log(_ns2.default.gArr.length));
+      iteration = Math.min(iteration, maxIteration);
       this.ctx.clearRect(0, 0, 256, 256);
 
       var tmp = [[0, 0]];

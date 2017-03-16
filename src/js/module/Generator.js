@@ -65,7 +65,7 @@ export default class Generator {
       $(this.startPt).on('mouseup', (evt) => {
         this.$container.off('mousemove');
 
-        this.$container.trigger('replot-fractal', 6);
+        this.$container.trigger('replot-fractal', 12);
       });
 
       this.$container.on('mousemove', (evt) => {
@@ -81,7 +81,7 @@ export default class Generator {
         this.startPt.setAttribute('cx', x);
         this.startPt.setAttribute('cy', y);
 
-        this.$container.trigger('replot-fractal', 4);
+        this.$container.trigger('replot-fractal', 8);
       });
     });
 
@@ -89,7 +89,7 @@ export default class Generator {
       $(this.endPt).on('mouseup', (evt) => {
         this.$container.off('mousemove');
 
-        this.$container.trigger('replot-fractal', 6);
+        this.$container.trigger('replot-fractal', 12);
       });
 
       this.$container.on('mousemove', (evt) => {
@@ -105,7 +105,7 @@ export default class Generator {
         this.endPt.setAttribute('cx', x);
         this.endPt.setAttribute('cy', y);
 
-        this.$container.trigger('replot-fractal', 4);
+        this.$container.trigger('replot-fractal', 8);
       });
     });
   }
