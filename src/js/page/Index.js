@@ -2,29 +2,9 @@ import ns from '../module/ns';
 import Point from '../module/Point';
 import Line from '../module/Line';
 import Generator from '../module/Generator';
+import {plus, sub, mult} from '../module/util';
 
 const MAX_POINTS = 10000;
-
-function plus(a, b) {
-  return new Point({
-    0: a.x + b.x,
-    1: a.y + b.y,
-  });
-}
-
-function sub(a, b) {
-  return new Point({
-    0: a.x - b.x,
-    1: a.y - b.y,
-  });
-}
-
-function mult(a, b) {
-  return new Point({
-    0: a.x * b.x - a.y * b.y,
-    1: a.x * b.y + a.y * b.x,
-  });
-}
 
 export default class Index {
   constructor(opts = {}) {
@@ -88,6 +68,11 @@ export default class Index {
 
     fractal.forEach((line) => {
       this.ctx.fillRect(line.start.x * 128 + 128, line.start.y * 128 + 128, 1, 1);
+
+      // this.ctx.beginPath();
+      // this.ctx.moveTo(line.start.x * 128 + 128, line.start.y * 128 + 128);
+      // this.ctx.lineTo(line.end.x   * 128 + 128, line.end.y   * 128 + 128);
+      // this.ctx.stroke();
     });
   }
 
@@ -107,7 +92,7 @@ export default class Index {
     ns.gArr.forEach((g) => {
       let l = new Line({
         start: plus(mult(sub(g.line.end, g.line.start), line.start), g.line.start),
-        end  : plus(mult(sub(g.line.end, g.line.end),   line.start), g.line.start),
+        end  : plus(mult(sub(g.line.end, g.line.start), line.end  ), g.line.start),
       });
 
       ret.push(l);

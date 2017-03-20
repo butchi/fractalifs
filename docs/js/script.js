@@ -378,7 +378,7 @@ var Router = function () {
 
 exports.default = Router;
 
-},{"../page/Common":7,"../page/Index":8,"./ns":6}],6:[function(require,module,exports){
+},{"../page/Common":8,"../page/Index":9,"./ns":6}],6:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -394,6 +394,43 @@ var ns = window.App;
 exports.default = ns;
 
 },{}],7:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.plus = plus;
+exports.sub = sub;
+exports.mult = mult;
+
+var _Point = require('./Point');
+
+var _Point2 = _interopRequireDefault(_Point);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function plus(a, b) {
+  return new _Point2.default({
+    0: a.x + b.x,
+    1: a.y + b.y
+  });
+}
+
+function sub(a, b) {
+  return new _Point2.default({
+    0: a.x - b.x,
+    1: a.y - b.y
+  });
+}
+
+function mult(a, b) {
+  return new _Point2.default({
+    0: a.x * b.x - a.y * b.y,
+    1: a.x * b.y + a.y * b.x
+  });
+}
+
+},{"./Point":4}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -452,7 +489,7 @@ var Common = function () {
 
 exports.default = Common;
 
-},{"../module/ns":6}],8:[function(require,module,exports){
+},{"../module/ns":6}],9:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -477,32 +514,13 @@ var _Generator = require('../module/Generator');
 
 var _Generator2 = _interopRequireDefault(_Generator);
 
+var _util = require('../module/util');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var MAX_POINTS = 10000;
-
-function plus(a, b) {
-  return new _Point2.default({
-    0: a.x + b.x,
-    1: a.y + b.y
-  });
-}
-
-function sub(a, b) {
-  return new _Point2.default({
-    0: a.x - b.x,
-    1: a.y - b.y
-  });
-}
-
-function mult(a, b) {
-  return new _Point2.default({
-    0: a.x * b.x - a.y * b.y,
-    1: a.x * b.y + a.y * b.x
-  });
-}
 
 var Index = function () {
   function Index() {
@@ -579,6 +597,11 @@ var Index = function () {
 
       fractal.forEach(function (line) {
         _this2.ctx.fillRect(line.start.x * 128 + 128, line.start.y * 128 + 128, 1, 1);
+
+        // this.ctx.beginPath();
+        // this.ctx.moveTo(line.start.x * 128 + 128, line.start.y * 128 + 128);
+        // this.ctx.lineTo(line.end.x   * 128 + 128, line.end.y   * 128 + 128);
+        // this.ctx.stroke();
       });
     }
   }, {
@@ -601,8 +624,8 @@ var Index = function () {
 
       _ns2.default.gArr.forEach(function (g) {
         var l = new _Line2.default({
-          start: plus(mult(sub(g.line.end, g.line.start), line.start), g.line.start),
-          end: plus(mult(sub(g.line.end, g.line.end), line.start), g.line.start)
+          start: (0, _util.plus)((0, _util.mult)((0, _util.sub)(g.line.end, g.line.start), line.start), g.line.start),
+          end: (0, _util.plus)((0, _util.mult)((0, _util.sub)(g.line.end, g.line.start), line.end), g.line.start)
         });
 
         ret.push(l);
@@ -617,7 +640,7 @@ var Index = function () {
 
 exports.default = Index;
 
-},{"../module/Generator":1,"../module/Line":2,"../module/Point":4,"../module/ns":6}],9:[function(require,module,exports){
+},{"../module/Generator":1,"../module/Line":2,"../module/Point":4,"../module/ns":6,"../module/util":7}],10:[function(require,module,exports){
 'use strict';
 
 var _ns = require('./module/ns');
@@ -634,4 +657,4 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 _ns2.default.main = new _Main2.default();
 
-},{"./module/Main":3,"./module/ns":6}]},{},[9]);
+},{"./module/Main":3,"./module/ns":6}]},{},[10]);
