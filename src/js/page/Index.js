@@ -21,6 +21,12 @@ export default class Index {
 
     this.$container.append(this.canvas);
 
+    this.circleImg = new Image();
+    this.circleImg.src = 'img/circle.png';
+
+    this.lineImg = new Image();
+    this.lineImg.src = 'img/line.png';
+
     ns.$ctrlCanvas = $('.ctrl-canvas');
 
     this.$container.append(ns.$ctrlCanvas);
@@ -68,11 +74,6 @@ export default class Index {
 
     fractal.forEach((line) => {
       this.ctx.fillRect(line.start.x * 128 + 128, line.start.y * 128 + 128, 1, 1);
-
-      // this.ctx.beginPath();
-      // this.ctx.moveTo(line.start.x * 128 + 128, line.start.y * 128 + 128);
-      // this.ctx.lineTo(line.end.x   * 128 + 128, line.end.y   * 128 + 128);
-      // this.ctx.stroke();
     });
   }
 

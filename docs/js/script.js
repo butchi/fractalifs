@@ -199,6 +199,8 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _util = require('./util');
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Line = function () {
@@ -214,6 +216,26 @@ var Line = function () {
   }
 
   _createClass(Line, [{
+    key: 'width',
+    value: function width() {
+      return (0, _util.sub)(this.end, this.start).x;
+    }
+  }, {
+    key: 'height',
+    value: function height() {
+      return (0, _util.sub)(this.end, this.start).y;
+    }
+  }, {
+    key: 'abs',
+    value: function abs() {
+      return (0, _util.sub)(this.end, this.start).abs();
+    }
+  }, {
+    key: 'arg',
+    value: function arg() {
+      return (0, _util.sub)(this.end, this.start).arg();
+    }
+  }, {
     key: 'start',
     get: function get() {
       return this[0];
@@ -236,7 +258,7 @@ var Line = function () {
 
 exports.default = Line;
 
-},{}],3:[function(require,module,exports){
+},{"./util":7}],3:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -306,6 +328,16 @@ var Point = function () {
   }
 
   _createClass(Point, [{
+    key: 'abs',
+    value: function abs() {
+      return Math.sqrt(this.x * this.x + this.y * this.y);
+    }
+  }, {
+    key: 'arg',
+    value: function arg() {
+      return Math.atan2(this.y, this.x);
+    }
+  }, {
     key: 'x',
     get: function get() {
       return this[0];
@@ -411,22 +443,22 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function plus(a, b) {
   return new _Point2.default({
-    0: a.x + b.x,
-    1: a.y + b.y
+    x: a.x + b.x,
+    y: a.y + b.y
   });
 }
 
 function sub(a, b) {
   return new _Point2.default({
-    0: a.x - b.x,
-    1: a.y - b.y
+    x: a.x - b.x,
+    y: a.y - b.y
   });
 }
 
 function mult(a, b) {
   return new _Point2.default({
-    0: a.x * b.x - a.y * b.y,
-    1: a.x * b.y + a.y * b.x
+    x: a.x * b.x - a.y * b.y,
+    y: a.x * b.y + a.y * b.x
   });
 }
 
@@ -545,6 +577,12 @@ var Index = function () {
 
       this.$container.append(this.canvas);
 
+      this.circleImg = new Image();
+      this.circleImg.src = 'img/circle.png';
+
+      this.lineImg = new Image();
+      this.lineImg.src = 'img/line.png';
+
       _ns2.default.$ctrlCanvas = $('.ctrl-canvas');
 
       this.$container.append(_ns2.default.$ctrlCanvas);
@@ -597,11 +635,6 @@ var Index = function () {
 
       fractal.forEach(function (line) {
         _this2.ctx.fillRect(line.start.x * 128 + 128, line.start.y * 128 + 128, 1, 1);
-
-        // this.ctx.beginPath();
-        // this.ctx.moveTo(line.start.x * 128 + 128, line.start.y * 128 + 128);
-        // this.ctx.lineTo(line.end.x   * 128 + 128, line.end.y   * 128 + 128);
-        // this.ctx.stroke();
       });
     }
   }, {

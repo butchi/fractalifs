@@ -21,4 +21,12 @@ export default class Point {
   set y(val) {
     this[1] = val;
   }
+
+  abs() {
+    return Math.sqrt(this.x * this.x + this.y * this.y);
+  }
+
+  arg() {
+    return Math.atan2(this.y, this.x);
+  }
 }
