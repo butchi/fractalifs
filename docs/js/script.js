@@ -560,40 +560,35 @@ var Index = function () {
       iteration = Math.min(iteration, maxIteration);
       this.ctx.clearRect(0, 0, 256, 256);
 
-      // let tmp = [new Line({
-      //   0: new Point({
-      //     0: 0,
-      //     1: 0,
-      //   }),
-      //   1: new Point({
-      //     0: 1,
-      //     1: 0,
-      //   }),
-      // })];
-
-      var tmp = [new _Point2.default({
-        x: 0,
-        y: 0
+      var lineArr = [new _Line2.default({
+        start: new _Point2.default({
+          x: 0,
+          y: 0
+        }),
+        end: new _Point2.default({
+          x: 1,
+          y: 0
+        })
       })];
 
       for (var i = 0; i < iteration; i++) {
-        tmp = this.iterate(tmp);
+        lineArr = this.iterate(lineArr);
       }
 
-      var fractal = tmp;
+      var fractal = lineArr;
 
-      fractal.forEach(function (pt) {
-        _this2.ctx.fillRect(pt.x * 128 + 128, pt.y * 128 + 128, 1, 1);
+      fractal.forEach(function (line) {
+        _this2.ctx.fillRect(line.start.x * 128 + 128, line.start.y * 128 + 128, 1, 1);
       });
     }
   }, {
     key: 'iterate',
-    value: function iterate(coordArr) {
+    value: function iterate(lineArr) {
       var _this3 = this;
 
       var ret = [];
-      coordArr.forEach(function (coord) {
-        var tmp = _this3.ifs(coord);
+      lineArr.forEach(function (line) {
+        var tmp = _this3.ifs(line);
         ret = ret.concat(tmp);
       });
 
@@ -601,11 +596,16 @@ var Index = function () {
     }
   }, {
     key: 'ifs',
-    value: function ifs(pt) {
+    value: function ifs(line) {
       var ret = [];
 
       _ns2.default.gArr.forEach(function (g) {
-        ret.push(plus(mult(sub(g.line.end, g.line.start), pt), g.line.start));
+        var l = new _Line2.default({
+          start: plus(mult(sub(g.line.end, g.line.start), line.start), g.line.start),
+          end: plus(mult(sub(g.line.end, g.line.end), line.start), g.line.start)
+        });
+
+        ret.push(l);
       });
 
       return ret;

@@ -69,48 +69,48 @@ export default class Index {
     iteration = Math.min(iteration, maxIteration);
     this.ctx.clearRect(0, 0, 256, 256);
 
-    // let tmp = [new Line({
-    //   0: new Point({
-    //     0: 0,
-    //     1: 0,
-    //   }),
-    //   1: new Point({
-    //     0: 1,
-    //     1: 0,
-    //   }),
-    // })];
-
-    let tmp = [new Point({
-      x: 0,
-      y: 0,
+    let lineArr = [new Line({
+      start: new Point({
+        x: 0,
+        y: 0,
+      }),
+      end: new Point({
+        x: 1,
+        y: 0,
+      }),
     })];
 
     for(let i = 0; i < iteration; i++) {
-      tmp = this.iterate(tmp);
+      lineArr = this.iterate(lineArr);
     }
 
-    let fractal = tmp;
+    let fractal = lineArr;
 
-    fractal.forEach((pt) => {
-      this.ctx.fillRect(pt.x * 128 + 128, pt.y * 128 + 128, 1, 1);
+    fractal.forEach((line) => {
+      this.ctx.fillRect(line.start.x * 128 + 128, line.start.y * 128 + 128, 1, 1);
     });
   }
 
-  iterate(coordArr) {
+  iterate(lineArr) {
     let ret = [];
-    coordArr.forEach((coord) => {
-      let tmp = this.ifs(coord);
+    lineArr.forEach((line) => {
+      let tmp = this.ifs(line);
       ret = ret.concat(tmp);
     });
 
     return ret;
   }
 
-  ifs(pt) {
+  ifs(line) {
     let ret = [];
 
     ns.gArr.forEach((g) => {
-      ret.push(plus(mult(sub(g.line.end, g.line.start), pt), g.line.start));
+      let l = new Line({
+        start: plus(mult(sub(g.line.end, g.line.start), line.start), g.line.start),
+        end  : plus(mult(sub(g.line.end, g.line.end),   line.start), g.line.start),
+      });
+
+      ret.push(l);
     });
 
     return ret;
