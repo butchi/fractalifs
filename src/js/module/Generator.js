@@ -1,4 +1,6 @@
 import ns from './ns';
+import Point from '../module/Point';
+import Line from '../module/Line';
 
 export default class Generator {
   constructor(opts = {}) {
@@ -9,7 +11,7 @@ export default class Generator {
     this.arrow = document.createElementNS('http://www.w3.org/2000/svg', 'g');
     this.$elm = $(this.arrow);
 
-    this.line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    this.lineElm = document.createElementNS('http://www.w3.org/2000/svg', 'line');
 
     this.startPt = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
     this.endPt = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
@@ -21,30 +23,35 @@ export default class Generator {
 
     ns.$ctrlCanvas.append(this.arrow);
 
-    this.point = opts.point || [[], []];
+    this.line = opts.line || new Line({
+      start: new Point({
+        x: 0,
+        y: 0,
+      }),
+      end: new Point({
+        x: 1,
+        y: 0,
+      }),
+    });
 
     this.$container.one('mousedown', (evt) => {
       this.touchDownHandler(evt);
     });
   }
 
-  get p() {
-    return this.point;
-  }
-
   touchDownHandler(evt) {
     const x = evt.pageX;
     const y = evt.pageY;
 
-    this.point[0][0] = (x - 128) / 128;
-    this.point[0][1] = (y - 128) / 128;
+    this.line.start.x = (x - 128) / 128;
+    this.line.start.y = (y - 128) / 128;
 
-    this.line.setAttribute('x1', x);
-    this.line.setAttribute('y1', y);
-    this.line.setAttribute('x2', x);
-    this.line.setAttribute('y2', y);
+    this.lineElm.setAttribute('x1', x);
+    this.lineElm.setAttribute('y1', y);
+    this.lineElm.setAttribute('x2', x);
+    this.lineElm.setAttribute('y2', y);
 
-    this.arrow.append(this.line);
+    this.arrow.append(this.lineElm);
 
     this.startPt.setAttribute('cx', x);
     this.startPt.setAttribute('cy', y);
@@ -72,11 +79,11 @@ export default class Generator {
         const x = evt.pageX;
         const y = evt.pageY;
 
-        this.point[0][0] = (x - 128) / 128;
-        this.point[0][1] = (y - 128) / 128;
+        this.line.start.x = (x - 128) / 128;
+        this.line.start.y = (y - 128) / 128;
 
-        this.line.setAttribute('x1', x);
-        this.line.setAttribute('y1', y);
+        this.lineElm.setAttribute('x1', x);
+        this.lineElm.setAttribute('y1', y);
 
         this.startPt.setAttribute('cx', x);
         this.startPt.setAttribute('cy', y);
@@ -96,11 +103,11 @@ export default class Generator {
         const x = evt.pageX;
         const y = evt.pageY;
 
-        this.point[1][0] = (x - 128) / 128;
-        this.point[1][1] = (y - 128) / 128;
+        this.line.end.x = (x - 128) / 128;
+        this.line.end.y = (y - 128) / 128;
 
-        this.line.setAttribute('x2', x);
-        this.line.setAttribute('y2', y);
+        this.lineElm.setAttribute('x2', x);
+        this.lineElm.setAttribute('y2', y);
 
         this.endPt.setAttribute('cx', x);
         this.endPt.setAttribute('cy', y);
@@ -114,11 +121,11 @@ export default class Generator {
     const x = evt.pageX;
     const y = evt.pageY;
 
-    this.point[1][0] = (x - 128) / 128;
-    this.point[1][1] = (y - 128) / 128;
+    this.line.end.x = (x - 128) / 128;
+    this.line.end.y = (y - 128) / 128;
 
-    this.line.setAttribute('x2', x);
-    this.line.setAttribute('y2', y);
+    this.lineElm.setAttribute('x2', x);
+    this.lineElm.setAttribute('y2', y);
   }
 
   touchUpHandler(evt) {
@@ -127,11 +134,11 @@ export default class Generator {
 
     this.$container.off('mousemove');
 
-    this.point[1][0] = (x - 128) / 128;
-    this.point[1][1] = (y - 128) / 128;
+    this.line.end.x = (x - 128) / 128;
+    this.line.end.y = (y - 128) / 128;
 
-    this.line.setAttribute('x2', x);
-    this.line.setAttribute('y2', y);
+    this.lineElm.setAttribute('x2', x);
+    this.lineElm.setAttribute('y2', y);
 
     this.endPt.setAttribute('cx', x);
     this.endPt.setAttribute('cy', y);

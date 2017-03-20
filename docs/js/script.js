@@ -11,6 +11,14 @@ var _ns = require('./ns');
 
 var _ns2 = _interopRequireDefault(_ns);
 
+var _Point = require('../module/Point');
+
+var _Point2 = _interopRequireDefault(_Point);
+
+var _Line = require('../module/Line');
+
+var _Line2 = _interopRequireDefault(_Line);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -34,7 +42,7 @@ var Generator = function () {
       this.arrow = document.createElementNS('http://www.w3.org/2000/svg', 'g');
       this.$elm = $(this.arrow);
 
-      this.line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      this.lineElm = document.createElementNS('http://www.w3.org/2000/svg', 'line');
 
       this.startPt = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
       this.endPt = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
@@ -46,7 +54,16 @@ var Generator = function () {
 
       _ns2.default.$ctrlCanvas.append(this.arrow);
 
-      this.point = opts.point || [[], []];
+      this.line = opts.line || new _Line2.default({
+        start: new _Point2.default({
+          x: 0,
+          y: 0
+        }),
+        end: new _Point2.default({
+          x: 1,
+          y: 0
+        })
+      });
 
       this.$container.one('mousedown', function (evt) {
         _this.touchDownHandler(evt);
@@ -60,15 +77,15 @@ var Generator = function () {
       var x = evt.pageX;
       var y = evt.pageY;
 
-      this.point[0][0] = (x - 128) / 128;
-      this.point[0][1] = (y - 128) / 128;
+      this.line.start.x = (x - 128) / 128;
+      this.line.start.y = (y - 128) / 128;
 
-      this.line.setAttribute('x1', x);
-      this.line.setAttribute('y1', y);
-      this.line.setAttribute('x2', x);
-      this.line.setAttribute('y2', y);
+      this.lineElm.setAttribute('x1', x);
+      this.lineElm.setAttribute('y1', y);
+      this.lineElm.setAttribute('x2', x);
+      this.lineElm.setAttribute('y2', y);
 
-      this.arrow.append(this.line);
+      this.arrow.append(this.lineElm);
 
       this.startPt.setAttribute('cx', x);
       this.startPt.setAttribute('cy', y);
@@ -96,11 +113,11 @@ var Generator = function () {
           var x = evt.pageX;
           var y = evt.pageY;
 
-          _this2.point[0][0] = (x - 128) / 128;
-          _this2.point[0][1] = (y - 128) / 128;
+          _this2.line.start.x = (x - 128) / 128;
+          _this2.line.start.y = (y - 128) / 128;
 
-          _this2.line.setAttribute('x1', x);
-          _this2.line.setAttribute('y1', y);
+          _this2.lineElm.setAttribute('x1', x);
+          _this2.lineElm.setAttribute('y1', y);
 
           _this2.startPt.setAttribute('cx', x);
           _this2.startPt.setAttribute('cy', y);
@@ -120,11 +137,11 @@ var Generator = function () {
           var x = evt.pageX;
           var y = evt.pageY;
 
-          _this2.point[1][0] = (x - 128) / 128;
-          _this2.point[1][1] = (y - 128) / 128;
+          _this2.line.end.x = (x - 128) / 128;
+          _this2.line.end.y = (y - 128) / 128;
 
-          _this2.line.setAttribute('x2', x);
-          _this2.line.setAttribute('y2', y);
+          _this2.lineElm.setAttribute('x2', x);
+          _this2.lineElm.setAttribute('y2', y);
 
           _this2.endPt.setAttribute('cx', x);
           _this2.endPt.setAttribute('cy', y);
@@ -139,11 +156,11 @@ var Generator = function () {
       var x = evt.pageX;
       var y = evt.pageY;
 
-      this.point[1][0] = (x - 128) / 128;
-      this.point[1][1] = (y - 128) / 128;
+      this.line.end.x = (x - 128) / 128;
+      this.line.end.y = (y - 128) / 128;
 
-      this.line.setAttribute('x2', x);
-      this.line.setAttribute('y2', y);
+      this.lineElm.setAttribute('x2', x);
+      this.lineElm.setAttribute('y2', y);
     }
   }, {
     key: 'touchUpHandler',
@@ -153,11 +170,11 @@ var Generator = function () {
 
       this.$container.off('mousemove');
 
-      this.point[1][0] = (x - 128) / 128;
-      this.point[1][1] = (y - 128) / 128;
+      this.line.end.x = (x - 128) / 128;
+      this.line.end.y = (y - 128) / 128;
 
-      this.line.setAttribute('x2', x);
-      this.line.setAttribute('y2', y);
+      this.lineElm.setAttribute('x2', x);
+      this.lineElm.setAttribute('y2', y);
 
       this.endPt.setAttribute('cx', x);
       this.endPt.setAttribute('cy', y);
@@ -166,11 +183,6 @@ var Generator = function () {
 
       this.$container.trigger('set-line');
     }
-  }, {
-    key: 'p',
-    get: function get() {
-      return this.point;
-    }
   }]);
 
   return Generator;
@@ -178,7 +190,53 @@ var Generator = function () {
 
 exports.default = Generator;
 
-},{"./ns":4}],2:[function(require,module,exports){
+},{"../module/Line":2,"../module/Point":4,"./ns":6}],2:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Line = function () {
+  function Line() {
+    var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    _classCallCheck(this, Line);
+
+    this.type = 'line';
+
+    this.start = opts.start || opts[0];
+    this.end = opts.end || opts[1];
+  }
+
+  _createClass(Line, [{
+    key: 'start',
+    get: function get() {
+      return this[0];
+    },
+    set: function set(val) {
+      this[0] = val;
+    }
+  }, {
+    key: 'end',
+    get: function get() {
+      return this[1];
+    },
+    set: function set(val) {
+      this[1] = val;
+    }
+  }]);
+
+  return Line;
+}();
+
+exports.default = Line;
+
+},{}],3:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -224,7 +282,53 @@ var Main = function () {
 
 exports.default = Main;
 
-},{"./Router":3}],3:[function(require,module,exports){
+},{"./Router":5}],4:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Point = function () {
+  function Point() {
+    var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    _classCallCheck(this, Point);
+
+    this.type = 'point';
+
+    this.x = opts.x || opts[0] || 0;
+    this.y = opts.y || opts[1] || 0;
+  }
+
+  _createClass(Point, [{
+    key: 'x',
+    get: function get() {
+      return this[0];
+    },
+    set: function set(val) {
+      this[0] = val;
+    }
+  }, {
+    key: 'y',
+    get: function get() {
+      return this[1];
+    },
+    set: function set(val) {
+      this[1] = val;
+    }
+  }]);
+
+  return Point;
+}();
+
+exports.default = Point;
+
+},{}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -274,7 +378,7 @@ var Router = function () {
 
 exports.default = Router;
 
-},{"../page/Common":5,"../page/Index":6,"./ns":4}],4:[function(require,module,exports){
+},{"../page/Common":7,"../page/Index":8,"./ns":6}],6:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -289,7 +393,7 @@ window.App = window.App || {};
 var ns = window.App;
 exports.default = ns;
 
-},{}],5:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -348,7 +452,7 @@ var Common = function () {
 
 exports.default = Common;
 
-},{"../module/ns":4}],6:[function(require,module,exports){
+},{"../module/ns":6}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -361,6 +465,14 @@ var _ns = require('../module/ns');
 
 var _ns2 = _interopRequireDefault(_ns);
 
+var _Point = require('../module/Point');
+
+var _Point2 = _interopRequireDefault(_Point);
+
+var _Line = require('../module/Line');
+
+var _Line2 = _interopRequireDefault(_Line);
+
 var _Generator = require('../module/Generator');
 
 var _Generator2 = _interopRequireDefault(_Generator);
@@ -372,24 +484,24 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var MAX_POINTS = 10000;
 
 function plus(a, b) {
-  return {
-    0: a[0] + b[0],
-    1: a[1] + b[1]
-  };
+  return new _Point2.default({
+    0: a.x + b.x,
+    1: a.y + b.y
+  });
 }
 
 function sub(a, b) {
-  return {
-    0: a[0] - b[0],
-    1: a[1] - b[1]
-  };
+  return new _Point2.default({
+    0: a.x - b.x,
+    1: a.y - b.y
+  });
 }
 
 function mult(a, b) {
-  return {
-    0: a[0] * b[0] - a[1] * b[1],
-    1: a[0] * b[1] + a[1] * b[0]
-  };
+  return new _Point2.default({
+    0: a.x * b.x - a.y * b.y,
+    1: a.x * b.y + a.y * b.x
+  });
 }
 
 var Index = function () {
@@ -448,7 +560,21 @@ var Index = function () {
       iteration = Math.min(iteration, maxIteration);
       this.ctx.clearRect(0, 0, 256, 256);
 
-      var tmp = [[0, 0]];
+      // let tmp = [new Line({
+      //   0: new Point({
+      //     0: 0,
+      //     1: 0,
+      //   }),
+      //   1: new Point({
+      //     0: 1,
+      //     1: 0,
+      //   }),
+      // })];
+
+      var tmp = [new _Point2.default({
+        x: 0,
+        y: 0
+      })];
 
       for (var i = 0; i < iteration; i++) {
         tmp = this.iterate(tmp);
@@ -456,8 +582,8 @@ var Index = function () {
 
       var fractal = tmp;
 
-      fractal.forEach(function (coord) {
-        _this2.ctx.fillRect(coord[0] * 128 + 128, coord[1] * 128 + 128, 1, 1);
+      fractal.forEach(function (pt) {
+        _this2.ctx.fillRect(pt.x * 128 + 128, pt.y * 128 + 128, 1, 1);
       });
     }
   }, {
@@ -479,7 +605,7 @@ var Index = function () {
       var ret = [];
 
       _ns2.default.gArr.forEach(function (g) {
-        ret.push(plus(mult(sub(g.p[1], g.p[0]), pt), g.p[0]));
+        ret.push(plus(mult(sub(g.line.end, g.line.start), pt), g.line.start));
       });
 
       return ret;
@@ -491,7 +617,7 @@ var Index = function () {
 
 exports.default = Index;
 
-},{"../module/Generator":1,"../module/ns":4}],7:[function(require,module,exports){
+},{"../module/Generator":1,"../module/Line":2,"../module/Point":4,"../module/ns":6}],9:[function(require,module,exports){
 'use strict';
 
 var _ns = require('./module/ns');
@@ -508,4 +634,4 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 _ns2.default.main = new _Main2.default();
 
-},{"./module/Main":2,"./module/ns":4}]},{},[7]);
+},{"./module/Main":3,"./module/ns":6}]},{},[9]);

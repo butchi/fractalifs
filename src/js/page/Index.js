@@ -1,27 +1,29 @@
 import ns from '../module/ns';
+import Point from '../module/Point';
+import Line from '../module/Line';
 import Generator from '../module/Generator';
 
 const MAX_POINTS = 10000;
 
 function plus(a, b) {
-  return {
-    0: a[0] + b[0],
-    1: a[1] + b[1],
-  };
+  return new Point({
+    0: a.x + b.x,
+    1: a.y + b.y,
+  });
 }
 
 function sub(a, b) {
-  return {
-    0: a[0] - b[0],
-    1: a[1] - b[1],
-  };
+  return new Point({
+    0: a.x - b.x,
+    1: a.y - b.y,
+  });
 }
 
 function mult(a, b) {
-  return {
-    0: a[0] * b[0] - a[1] * b[1],
-    1: a[0] * b[1] + a[1] * b[0],
-  };
+  return new Point({
+    0: a.x * b.x - a.y * b.y,
+    1: a.x * b.y + a.y * b.x,
+  });
 }
 
 export default class Index {
@@ -67,7 +69,21 @@ export default class Index {
     iteration = Math.min(iteration, maxIteration);
     this.ctx.clearRect(0, 0, 256, 256);
 
-    let tmp = [[0, 0]];
+    // let tmp = [new Line({
+    //   0: new Point({
+    //     0: 0,
+    //     1: 0,
+    //   }),
+    //   1: new Point({
+    //     0: 1,
+    //     1: 0,
+    //   }),
+    // })];
+
+    let tmp = [new Point({
+      x: 0,
+      y: 0,
+    })];
 
     for(let i = 0; i < iteration; i++) {
       tmp = this.iterate(tmp);
@@ -75,8 +91,8 @@ export default class Index {
 
     let fractal = tmp;
 
-    fractal.forEach((coord) => {
-      this.ctx.fillRect(coord[0] * 128 + 128, coord[1] * 128 + 128, 1, 1);
+    fractal.forEach((pt) => {
+      this.ctx.fillRect(pt.x * 128 + 128, pt.y * 128 + 128, 1, 1);
     });
   }
 
@@ -94,7 +110,7 @@ export default class Index {
     let ret = [];
 
     ns.gArr.forEach((g) => {
-      ret.push(plus(mult(sub(g.p[1], g.p[0]), pt), g.p[0]));
+      ret.push(plus(mult(sub(g.line.end, g.line.start), pt), g.line.start));
     });
 
     return ret;
