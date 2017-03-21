@@ -1,6 +1,7 @@
 import ns from '../module/ns';
 import Point from '../module/Point';
 import Line from '../module/Line';
+import Grid from '../module/Grid';
 import Generator from '../module/Generator';
 import {plus, sub, mult} from '../module/util';
 
@@ -33,6 +34,20 @@ export default class Index {
 
     this.ctx = this.canvas.getContext('2d');
 
+    ns.grid = new Grid({
+      type: 'square',
+      interval: 1/2,
+      canvas: this.canvas,
+    });
+
+    ns.grid.plot();
+
+    let $snap = $('[data-js-class~="snap"]');
+
+    $snap.on('change', () => {
+      ns.snapFlag = $snap.prop('checked');
+    }).trigger('change');
+
     ns.gArr = [];
 
     $('.btn-add-generator').on('click', (_evt) => {
@@ -54,6 +69,8 @@ export default class Index {
     let maxIteration = Math.floor(Math.log(MAX_POINTS) / Math.log(ns.gArr.length));
     iteration = Math.min(iteration, maxIteration);
     this.ctx.clearRect(0, 0, 256, 256);
+
+    ns.grid.plot();
 
     let lineArr = [new Line({
       start: new Point({

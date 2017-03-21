@@ -156,6 +156,16 @@ var Generator = function () {
       var x = evt.pageX;
       var y = evt.pageY;
 
+      if (_ns2.default.snapFlag) {
+        var point = _ns2.default.grid.nn(new _Point2.default({
+          x: (x - 128) / 128,
+          y: (y - 128) / 128
+        }));
+
+        x = point.x * 128 + 128;
+        y = point.y * 128 + 128;
+      }
+
       this.line.end.x = (x - 128) / 128;
       this.line.end.y = (y - 128) / 128;
 
@@ -190,7 +200,132 @@ var Generator = function () {
 
 exports.default = Generator;
 
-},{"../module/Line":2,"../module/Point":4,"./ns":6}],2:[function(require,module,exports){
+},{"../module/Line":3,"../module/Point":5,"./ns":7}],2:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _ns = require('./ns');
+
+var _ns2 = _interopRequireDefault(_ns);
+
+var _Point = require('./Point');
+
+var _Point2 = _interopRequireDefault(_Point);
+
+var _Line = require('./Line');
+
+var _Line2 = _interopRequireDefault(_Line);
+
+var _util = require('./util');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Grid = function () {
+  function Grid() {
+    var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    _classCallCheck(this, Grid);
+
+    this.initialize(opts);
+  }
+
+  _createClass(Grid, [{
+    key: 'initialize',
+    value: function initialize(opts) {
+      this.canvas = opts.canvas;
+      this.ctx = this.canvas.getContext('2d');
+
+      this.type = opts.type;
+
+      this.interval = 1 / 2;
+
+      this.minX = -1;
+      this.minY = -1;
+      this.maxX = 1;
+      this.maxY = 1;
+
+      this.lineArr = [];
+      this.pointArr = [];
+
+      if (this.type === 'square') {
+        for (var y = this.minY; y < this.maxY; y += this.interval) {
+          this.lineArr.push(new _Line2.default({
+            start: new _Point2.default({
+              x: this.minX,
+              y: y
+            }),
+            end: new _Point2.default({
+              x: this.maxX,
+              y: y
+            })
+          }));
+        }
+
+        for (var x = this.minX; x < this.maxX; x += this.interval) {
+          this.lineArr.push(new _Line2.default({
+            start: new _Point2.default({
+              x: x,
+              y: this.minY
+            }),
+            end: new _Point2.default({
+              x: x,
+              y: this.maxY
+            })
+          }));
+        }
+
+        for (var _y = this.minY; _y < this.maxY; _y += this.interval) {
+          for (var _x2 = this.minX; _x2 < this.maxX; _x2 += this.interval) {
+            this.pointArr.push(new _Point2.default({ x: _x2, y: _y }));
+          }
+        }
+      }
+    }
+  }, {
+    key: 'plot',
+    value: function plot() {
+      var _this = this;
+
+      this.lineArr.forEach(function (line) {
+        _this.ctx.beginPath();
+        _this.ctx.moveTo(line.start.x * 128 + 128, line.start.y * 128 + 128);
+        _this.ctx.lineTo(line.end.x * 128 + 128, line.end.y * 128 + 128);
+        _this.ctx.strokeStyle = '#ccc';
+        _this.ctx.stroke();
+      });
+    }
+  }, {
+    key: 'nn',
+    value: function nn(p) {
+      var min = Infinity;
+      var ret = void 0;
+
+      this.pointArr.forEach(function (point) {
+        var tmp = (0, _util.sub)(p, point).abs();
+
+        if (tmp < min) {
+          ret = point;
+          min = tmp;
+        }
+      });
+
+      return ret;
+    }
+  }]);
+
+  return Grid;
+}();
+
+exports.default = Grid;
+
+},{"./Line":3,"./Point":5,"./ns":7,"./util":8}],3:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -258,7 +393,7 @@ var Line = function () {
 
 exports.default = Line;
 
-},{"./util":7}],3:[function(require,module,exports){
+},{"./util":8}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -304,7 +439,7 @@ var Main = function () {
 
 exports.default = Main;
 
-},{"./Router":5}],4:[function(require,module,exports){
+},{"./Router":6}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -360,7 +495,7 @@ var Point = function () {
 
 exports.default = Point;
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -410,7 +545,7 @@ var Router = function () {
 
 exports.default = Router;
 
-},{"../page/Common":8,"../page/Index":9,"./ns":6}],6:[function(require,module,exports){
+},{"../page/Common":9,"../page/Index":10,"./ns":7}],7:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -425,7 +560,7 @@ window.App = window.App || {};
 var ns = window.App;
 exports.default = ns;
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -462,7 +597,7 @@ function mult(a, b) {
   });
 }
 
-},{"./Point":4}],8:[function(require,module,exports){
+},{"./Point":5}],9:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -521,7 +656,7 @@ var Common = function () {
 
 exports.default = Common;
 
-},{"../module/ns":6}],9:[function(require,module,exports){
+},{"../module/ns":7}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -541,6 +676,10 @@ var _Point2 = _interopRequireDefault(_Point);
 var _Line = require('../module/Line');
 
 var _Line2 = _interopRequireDefault(_Line);
+
+var _Grid = require('../module/Grid');
+
+var _Grid2 = _interopRequireDefault(_Grid);
 
 var _Generator = require('../module/Generator');
 
@@ -589,6 +728,20 @@ var Index = function () {
 
       this.ctx = this.canvas.getContext('2d');
 
+      _ns2.default.grid = new _Grid2.default({
+        type: 'square',
+        interval: 1 / 2,
+        canvas: this.canvas
+      });
+
+      _ns2.default.grid.plot();
+
+      var $snap = $('[data-js-class~="snap"]');
+
+      $snap.on('change', function () {
+        _ns2.default.snapFlag = $snap.prop('checked');
+      }).trigger('change');
+
       _ns2.default.gArr = [];
 
       $('.btn-add-generator').on('click', function (_evt) {
@@ -615,6 +768,8 @@ var Index = function () {
       var maxIteration = Math.floor(Math.log(MAX_POINTS) / Math.log(_ns2.default.gArr.length));
       iteration = Math.min(iteration, maxIteration);
       this.ctx.clearRect(0, 0, 256, 256);
+
+      _ns2.default.grid.plot();
 
       var lineArr = [new _Line2.default({
         start: new _Point2.default({
@@ -673,7 +828,7 @@ var Index = function () {
 
 exports.default = Index;
 
-},{"../module/Generator":1,"../module/Line":2,"../module/Point":4,"../module/ns":6,"../module/util":7}],10:[function(require,module,exports){
+},{"../module/Generator":1,"../module/Grid":2,"../module/Line":3,"../module/Point":5,"../module/ns":7,"../module/util":8}],11:[function(require,module,exports){
 'use strict';
 
 var _ns = require('./module/ns');
@@ -690,4 +845,4 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 _ns2.default.main = new _Main2.default();
 
-},{"./module/Main":3,"./module/ns":6}]},{},[10]);
+},{"./module/Main":4,"./module/ns":7}]},{},[11]);

@@ -118,8 +118,18 @@ export default class Generator {
   }
 
   touchMoveHandler(evt) {
-    const x = evt.pageX;
-    const y = evt.pageY;
+    let x = evt.pageX;
+    let y = evt.pageY;
+
+    if(ns.snapFlag) {
+      let point = ns.grid.nn(new Point({
+        x: (x - 128) / 128,
+        y: (y - 128) / 128,
+      }));
+
+      x = point.x * 128 + 128;
+      y = point.y * 128 + 128;
+    }
 
     this.line.end.x = (x - 128) / 128;
     this.line.end.y = (y - 128) / 128;
