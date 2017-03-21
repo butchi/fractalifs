@@ -114,7 +114,7 @@ export default class Generator {
     });
 
     $(this.endPt).on('mousedown', (evt) => {
-      $(this.endPt).on('mouseup', (evt) => {
+      this.$container.on('mouseup', (evt) => {
         this.$container.off('mousemove');
 
         this.$container.trigger('replot-fractal', 12);

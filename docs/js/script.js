@@ -149,7 +149,7 @@ var Generator = function () {
       });
 
       $(this.endPt).on('mousedown', function (evt) {
-        $(_this2.endPt).on('mouseup', function (evt) {
+        _this2.$container.on('mouseup', function (evt) {
           _this2.$container.off('mousemove');
 
           _this2.$container.trigger('replot-fractal', 12);
