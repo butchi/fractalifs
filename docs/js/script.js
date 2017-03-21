@@ -92,17 +92,13 @@ var Generator = function () {
 
       this.line.start = (0, _util.unit)(pointPx);
 
-      this.lineElm.setAttribute('x1', pointPx.x);
-      this.lineElm.setAttribute('y1', pointPx.y);
-      this.lineElm.setAttribute('x2', pointPx.x);
-      this.lineElm.setAttribute('y2', pointPx.y);
+      this.setStartLine(pointPx);
+      this.setEndLine(pointPx);
 
       this.arrow.append(this.lineElm);
 
-      this.startPt.setAttribute('cx', pointPx.x);
-      this.startPt.setAttribute('cy', pointPx.y);
-      this.endPt.setAttribute('cx', pointPx.x);
-      this.endPt.setAttribute('cy', pointPx.y);
+      this.setStartPt(pointPx);
+      this.setEndPt(pointPx);
 
       this.arrow.append(this.startPt);
 
@@ -138,11 +134,9 @@ var Generator = function () {
 
           _this2.line.start = (0, _util.unit)(pointPx);
 
-          _this2.lineElm.setAttribute('x1', pointPx.x);
-          _this2.lineElm.setAttribute('y1', pointPx.y);
+          _this2.setStartLine(pointPx);
 
-          _this2.startPt.setAttribute('cx', pointPx.x);
-          _this2.startPt.setAttribute('cy', pointPx.y);
+          _this2.setStartPt(pointPx);
 
           _this2.$container.trigger('replot-fractal', 8);
         });
@@ -172,11 +166,9 @@ var Generator = function () {
 
           _this2.line.end = pointUnit;
 
-          _this2.lineElm.setAttribute('x2', pointPx.x);
-          _this2.lineElm.setAttribute('y2', pointPx.y);
+          _this2.setEndLine(pointPx);
 
-          _this2.endPt.setAttribute('cx', pointPx.x);
-          _this2.endPt.setAttribute('cy', pointPx.y);
+          _this2.setEndPt(pointPx);
 
           _this2.$container.trigger('replot-fractal', 8);
         });
@@ -200,9 +192,7 @@ var Generator = function () {
       }
 
       this.line.end = pointUnit;
-
-      this.lineElm.setAttribute('x2', pointPx.x);
-      this.lineElm.setAttribute('y2', pointPx.y);
+      this.setEndLine(pointPx);
     }
   }, {
     key: 'touchUpHandler',
@@ -226,15 +216,36 @@ var Generator = function () {
       this.line.end.x = pointUnit.x;
       this.line.end.y = pointUnit.y;
 
-      this.lineElm.setAttribute('x2', pointPx.x);
-      this.lineElm.setAttribute('y2', pointPx.y);
-
-      this.endPt.setAttribute('cx', pointPx.x);
-      this.endPt.setAttribute('cy', pointPx.y);
+      this.setEndLine(pointPx);
+      this.setEndPt(pointPx);
 
       this.arrow.append(this.endPt);
 
       this.$container.trigger('set-line');
+    }
+  }, {
+    key: 'setStartPt',
+    value: function setStartPt(p) {
+      this.startPt.setAttribute('cx', p.x);
+      this.startPt.setAttribute('cy', p.y);
+    }
+  }, {
+    key: 'setEndPt',
+    value: function setEndPt(p) {
+      this.endPt.setAttribute('cx', p.x);
+      this.endPt.setAttribute('cy', p.y);
+    }
+  }, {
+    key: 'setStartLine',
+    value: function setStartLine(p) {
+      this.lineElm.setAttribute('x1', p.x);
+      this.lineElm.setAttribute('y1', p.y);
+    }
+  }, {
+    key: 'setEndLine',
+    value: function setEndLine(p) {
+      this.lineElm.setAttribute('x2', p.x);
+      this.lineElm.setAttribute('y2', p.y);
     }
   }]);
 
