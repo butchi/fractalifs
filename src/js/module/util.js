@@ -20,3 +20,17 @@ export function mult(a, b) {
     y: a.x * b.y + a.y * b.x,
   });
 }
+
+export function px(p) {
+  return new Point({
+    x:   p.x * 128 + 128,
+    y: - p.y * 128 + 128,
+  });
+}
+
+export function unit(p) {
+  return new Point({
+    x:   (p.x - 128) / 128,
+    y: - (p.y - 128) / 128,
+  });
+}

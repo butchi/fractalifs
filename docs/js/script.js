@@ -19,6 +19,8 @@ var _Line = require('../module/Line');
 
 var _Line2 = _interopRequireDefault(_Line);
 
+var _util = require('./util');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -77,20 +79,30 @@ var Generator = function () {
       var x = evt.pageX;
       var y = evt.pageY;
 
-      this.line.start.x = (x - 128) / 128;
-      this.line.start.y = (y - 128) / 128;
+      var pointPx = new _Point2.default({ x: x, y: y });
+      var pointUnit = (0, _util.unit)(pointPx);
 
-      this.lineElm.setAttribute('x1', x);
-      this.lineElm.setAttribute('y1', y);
-      this.lineElm.setAttribute('x2', x);
-      this.lineElm.setAttribute('y2', y);
+      if (_ns2.default.snapFlag) {
+        pointUnit = _ns2.default.grid.nn(new _Point2.default({
+          x: pointUnit.x,
+          y: pointUnit.y
+        }));
+        pointPx = (0, _util.px)(pointUnit);
+      }
+
+      this.line.start = (0, _util.unit)(pointPx);
+
+      this.lineElm.setAttribute('x1', pointPx.x);
+      this.lineElm.setAttribute('y1', pointPx.y);
+      this.lineElm.setAttribute('x2', pointPx.x);
+      this.lineElm.setAttribute('y2', pointPx.y);
 
       this.arrow.append(this.lineElm);
 
-      this.startPt.setAttribute('cx', x);
-      this.startPt.setAttribute('cy', y);
-      this.endPt.setAttribute('cx', x);
-      this.endPt.setAttribute('cy', y);
+      this.startPt.setAttribute('cx', pointPx.x);
+      this.startPt.setAttribute('cy', pointPx.y);
+      this.endPt.setAttribute('cx', pointPx.x);
+      this.endPt.setAttribute('cy', pointPx.y);
 
       this.arrow.append(this.startPt);
 
@@ -113,14 +125,24 @@ var Generator = function () {
           var x = evt.pageX;
           var y = evt.pageY;
 
-          _this2.line.start.x = (x - 128) / 128;
-          _this2.line.start.y = (y - 128) / 128;
+          var pointPx = new _Point2.default({ x: x, y: y });
+          var pointUnit = (0, _util.unit)(pointPx);
 
-          _this2.lineElm.setAttribute('x1', x);
-          _this2.lineElm.setAttribute('y1', y);
+          if (_ns2.default.snapFlag) {
+            pointUnit = _ns2.default.grid.nn(new _Point2.default({
+              x: pointUnit.x,
+              y: pointUnit.y
+            }));
+            pointPx = (0, _util.px)(pointUnit);
+          }
 
-          _this2.startPt.setAttribute('cx', x);
-          _this2.startPt.setAttribute('cy', y);
+          _this2.line.start = (0, _util.unit)(pointPx);
+
+          _this2.lineElm.setAttribute('x1', pointPx.x);
+          _this2.lineElm.setAttribute('y1', pointPx.y);
+
+          _this2.startPt.setAttribute('cx', pointPx.x);
+          _this2.startPt.setAttribute('cy', pointPx.y);
 
           _this2.$container.trigger('replot-fractal', 8);
         });
@@ -137,14 +159,24 @@ var Generator = function () {
           var x = evt.pageX;
           var y = evt.pageY;
 
-          _this2.line.end.x = (x - 128) / 128;
-          _this2.line.end.y = (y - 128) / 128;
+          var pointPx = new _Point2.default({ x: x, y: y });
+          var pointUnit = (0, _util.unit)(pointPx);
 
-          _this2.lineElm.setAttribute('x2', x);
-          _this2.lineElm.setAttribute('y2', y);
+          if (_ns2.default.snapFlag) {
+            pointUnit = _ns2.default.grid.nn(new _Point2.default({
+              x: pointUnit.x,
+              y: pointUnit.y
+            }));
+            pointPx = (0, _util.px)(pointUnit);
+          }
 
-          _this2.endPt.setAttribute('cx', x);
-          _this2.endPt.setAttribute('cy', y);
+          _this2.line.end = pointUnit;
+
+          _this2.lineElm.setAttribute('x2', pointPx.x);
+          _this2.lineElm.setAttribute('y2', pointPx.y);
+
+          _this2.endPt.setAttribute('cx', pointPx.x);
+          _this2.endPt.setAttribute('cy', pointPx.y);
 
           _this2.$container.trigger('replot-fractal', 8);
         });
@@ -156,21 +188,21 @@ var Generator = function () {
       var x = evt.pageX;
       var y = evt.pageY;
 
-      if (_ns2.default.snapFlag) {
-        var point = _ns2.default.grid.nn(new _Point2.default({
-          x: (x - 128) / 128,
-          y: (y - 128) / 128
-        }));
+      var pointPx = new _Point2.default({ x: x, y: y });
+      var pointUnit = (0, _util.unit)(pointPx);
 
-        x = point.x * 128 + 128;
-        y = point.y * 128 + 128;
+      if (_ns2.default.snapFlag) {
+        pointUnit = _ns2.default.grid.nn(new _Point2.default({
+          x: pointUnit.x,
+          y: pointUnit.y
+        }));
+        pointPx = (0, _util.px)(pointUnit);
       }
 
-      this.line.end.x = (x - 128) / 128;
-      this.line.end.y = (y - 128) / 128;
+      this.line.end = pointUnit;
 
-      this.lineElm.setAttribute('x2', x);
-      this.lineElm.setAttribute('y2', y);
+      this.lineElm.setAttribute('x2', pointPx.x);
+      this.lineElm.setAttribute('y2', pointPx.y);
     }
   }, {
     key: 'touchUpHandler',
@@ -178,16 +210,27 @@ var Generator = function () {
       var x = evt.pageX;
       var y = evt.pageY;
 
+      var pointPx = new _Point2.default({ x: x, y: y });
+      var pointUnit = (0, _util.unit)(pointPx);
+
+      if (_ns2.default.snapFlag) {
+        pointUnit = _ns2.default.grid.nn(new _Point2.default({
+          x: pointUnit.x,
+          y: pointUnit.y
+        }));
+        pointPx = (0, _util.px)(pointUnit);
+      }
+
       this.$container.off('mousemove');
 
-      this.line.end.x = (x - 128) / 128;
-      this.line.end.y = (y - 128) / 128;
+      this.line.end.x = pointUnit.x;
+      this.line.end.y = pointUnit.y;
 
-      this.lineElm.setAttribute('x2', x);
-      this.lineElm.setAttribute('y2', y);
+      this.lineElm.setAttribute('x2', pointPx.x);
+      this.lineElm.setAttribute('y2', pointPx.y);
 
-      this.endPt.setAttribute('cx', x);
-      this.endPt.setAttribute('cy', y);
+      this.endPt.setAttribute('cx', pointPx.x);
+      this.endPt.setAttribute('cy', pointPx.y);
 
       this.arrow.append(this.endPt);
 
@@ -200,7 +243,7 @@ var Generator = function () {
 
 exports.default = Generator;
 
-},{"../module/Line":3,"../module/Point":5,"./ns":7}],2:[function(require,module,exports){
+},{"../module/Line":3,"../module/Point":5,"./ns":7,"./util":8}],2:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -255,7 +298,7 @@ var Grid = function () {
       this.pointArr = [];
 
       if (this.type === 'square') {
-        for (var y = this.minY; y < this.maxY; y += this.interval) {
+        for (var y = this.minY; y <= this.maxY; y += this.interval) {
           this.lineArr.push(new _Line2.default({
             start: new _Point2.default({
               x: this.minX,
@@ -268,7 +311,7 @@ var Grid = function () {
           }));
         }
 
-        for (var x = this.minX; x < this.maxX; x += this.interval) {
+        for (var x = this.minX; x <= this.maxX; x += this.interval) {
           this.lineArr.push(new _Line2.default({
             start: new _Point2.default({
               x: x,
@@ -294,9 +337,12 @@ var Grid = function () {
       var _this = this;
 
       this.lineArr.forEach(function (line) {
+        var start = (0, _util.px)(line.start);
+        var end = (0, _util.px)(line.end);
+
         _this.ctx.beginPath();
-        _this.ctx.moveTo(line.start.x * 128 + 128, line.start.y * 128 + 128);
-        _this.ctx.lineTo(line.end.x * 128 + 128, line.end.y * 128 + 128);
+        _this.ctx.moveTo(start.x, start.y);
+        _this.ctx.lineTo(end.x, end.y);
         _this.ctx.strokeStyle = '#ccc';
         _this.ctx.stroke();
       });
@@ -569,6 +615,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.plus = plus;
 exports.sub = sub;
 exports.mult = mult;
+exports.px = px;
+exports.unit = unit;
 
 var _Point = require('./Point');
 
@@ -594,6 +642,20 @@ function mult(a, b) {
   return new _Point2.default({
     x: a.x * b.x - a.y * b.y,
     y: a.x * b.y + a.y * b.x
+  });
+}
+
+function px(p) {
+  return new _Point2.default({
+    x: p.x * 128 + 128,
+    y: -p.y * 128 + 128
+  });
+}
+
+function unit(p) {
+  return new _Point2.default({
+    x: (p.x - 128) / 128,
+    y: -(p.y - 128) / 128
   });
 }
 
@@ -789,7 +851,12 @@ var Index = function () {
       var fractal = lineArr;
 
       fractal.forEach(function (line) {
-        _this2.ctx.fillRect(line.start.x * 128 + 128, line.start.y * 128 + 128, 1, 1);
+        var p = (0, _util.px)({
+          x: line.start.x,
+          y: line.start.y
+        });
+
+        _this2.ctx.fillRect(p.x, p.y, 1, 1);
       });
     }
   }, {

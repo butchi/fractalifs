@@ -1,7 +1,7 @@
 import ns from './ns';
 import Point from './Point';
 import Line from './Line';
-import {plus, sub, mult} from './util';
+import {plus, sub, mult, px, unit} from './util';
 
 export default class Grid {
   constructor(opts = {}) {
@@ -25,7 +25,7 @@ export default class Grid {
     this.pointArr = [];
 
     if(this.type === 'square') {
-      for(let y = this.minY; y < this.maxY; y += this.interval ) {
+      for(let y = this.minY; y <= this.maxY; y += this.interval ) {
         this.lineArr.push(new Line({
           start: new Point({
             x: this.minX,
@@ -38,7 +38,7 @@ export default class Grid {
         }));
       }
 
-      for(let x = this.minX; x < this.maxX; x += this.interval ) {
+      for(let x = this.minX; x <= this.maxX; x += this.interval ) {
         this.lineArr.push(new Line({
           start: new Point({
             x: x,
@@ -61,9 +61,12 @@ export default class Grid {
 
   plot() {
     this.lineArr.forEach((line) => {
+      let start = px(line.start);
+      let end = px(line.end);
+
       this.ctx.beginPath();
-      this.ctx.moveTo(line.start.x * 128 + 128, line.start.y * 128 + 128);
-      this.ctx.lineTo(line.end.x * 128 + 128, line.end.y * 128 + 128);
+      this.ctx.moveTo(start.x, start.y);
+      this.ctx.lineTo(end.x, end.y);
       this.ctx.strokeStyle = '#ccc';
       this.ctx.stroke();
     });

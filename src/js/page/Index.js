@@ -3,7 +3,7 @@ import Point from '../module/Point';
 import Line from '../module/Line';
 import Grid from '../module/Grid';
 import Generator from '../module/Generator';
-import {plus, sub, mult} from '../module/util';
+import {plus, sub, mult, px, unit} from '../module/util';
 
 const MAX_POINTS = 10000;
 
@@ -90,7 +90,12 @@ export default class Index {
     let fractal = lineArr;
 
     fractal.forEach((line) => {
-      this.ctx.fillRect(line.start.x * 128 + 128, line.start.y * 128 + 128, 1, 1);
+      let p = px({
+        x: line.start.x,
+        y: line.start.y,
+      });
+
+      this.ctx.fillRect(p.x, p.y, 1, 1);
     });
   }
 
