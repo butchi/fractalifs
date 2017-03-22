@@ -334,6 +334,8 @@ var Grid = function () {
       this.lineArr = [];
       this.pointArr = [];
 
+      this.axisArr = [];
+
       if (this.type === 'square') {
         for (var y = this.minY; y <= this.maxY; y += this.interval) {
           this.lineArr.push(new _Line2.default({
@@ -366,6 +368,28 @@ var Grid = function () {
             this.pointArr.push(new _Point2.default({ x: _x2, y: _y }));
           }
         }
+
+        this.axisArr.push(new _Line2.default({
+          start: new _Point2.default({
+            x: 0,
+            y: this.minY
+          }),
+          end: new _Point2.default({
+            x: 0,
+            y: this.maxY
+          })
+        }));
+
+        this.axisArr.push(new _Line2.default({
+          start: new _Point2.default({
+            x: this.minX,
+            y: 0
+          }),
+          end: new _Point2.default({
+            x: this.maxX,
+            y: 0
+          })
+        }));
       }
     }
   }, {
@@ -381,6 +405,17 @@ var Grid = function () {
         _this.ctx.moveTo(start.x, start.y);
         _this.ctx.lineTo(end.x, end.y);
         _this.ctx.strokeStyle = '#ccc';
+        _this.ctx.stroke();
+      });
+
+      this.axisArr.forEach(function (axis) {
+        var start = (0, _util.px)(axis.start);
+        var end = (0, _util.px)(axis.end);
+
+        _this.ctx.beginPath();
+        _this.ctx.moveTo(start.x, start.y);
+        _this.ctx.lineTo(end.x, end.y);
+        _this.ctx.strokeStyle = '#000';
         _this.ctx.stroke();
       });
     }
