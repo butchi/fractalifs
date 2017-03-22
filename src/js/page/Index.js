@@ -6,6 +6,10 @@ import Generator from '../module/Generator';
 import {plus, sub, mult, px, unit} from '../module/util';
 
 const MAX_POINTS = 10000;
+const iterationHq = 12;
+const iterationLq = 8;
+// const iterationHq = 6;
+// const iterationLq = 6;
 
 export default class Index {
   constructor(opts = {}) {
@@ -21,14 +25,17 @@ export default class Index {
     this.circleImg.src = 'img/circle.png';
 
     this.lineImg = new Image();
-    this.lineImg.src = 'img/line.png';
+    this.lineImg.src = 'img/line.svg';
+
+    this.squareImg = new Image();
+    this.squareImg.src = 'img/square.png';
 
     ns.ctrlField = document.querySelector('.ctrl-field');
 
     $(window).on('resize', () => {
       this.setSize();
 
-      this.plot(8);
+      this.plot(iterationLq);
 
       ns.gArr.forEach((elm) => {
         elm.replace();
@@ -80,7 +87,7 @@ export default class Index {
     });
 
     this.$container.on('set-line', () => {
-      this.plot(12);
+      this.plot(iterationHq);
     });
 
     this.$container.on('replot-fractal', (_evt, iteration) => {

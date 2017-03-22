@@ -843,6 +843,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var MAX_POINTS = 10000;
+var iterationHq = 12;
+var iterationLq = 8;
+// const iterationHq = 6;
+// const iterationLq = 6;
 
 var Index = function () {
   function Index() {
@@ -866,14 +870,17 @@ var Index = function () {
       this.circleImg.src = 'img/circle.png';
 
       this.lineImg = new Image();
-      this.lineImg.src = 'img/line.png';
+      this.lineImg.src = 'img/line.svg';
+
+      this.squareImg = new Image();
+      this.squareImg.src = 'img/square.png';
 
       _ns2.default.ctrlField = document.querySelector('.ctrl-field');
 
       $(window).on('resize', function () {
         _this.setSize();
 
-        _this.plot(8);
+        _this.plot(iterationLq);
 
         _ns2.default.gArr.forEach(function (elm) {
           elm.replace();
@@ -919,7 +926,7 @@ var Index = function () {
       });
 
       this.$container.on('set-line', function () {
-        _this.plot(12);
+        _this.plot(iterationHq);
       });
 
       this.$container.on('replot-fractal', function (_evt, iteration) {
