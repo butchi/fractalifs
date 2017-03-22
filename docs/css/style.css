@@ -108,22 +108,46 @@ html.is-pc .wrapper {
   min-width: 12rem;
   overflow: hidden; }
 
+html {
+  width: 100%;
+  height: 100%; }
+
 body.page-index {
-  background-color: #ccc; }
+  width: 100%;
+  height: 100%;
+  background-color: #ccc;
+  overflow: hidden; }
+  body.page-index .wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0; }
+  body.page-index .container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0; }
   body.page-index .elm-canvas {
-    background-color: white; }
-  body.page-index .ctrl-canvas {
     position: absolute;
     left: 0;
     top: 0;
-    width: 256px;
-    height: 256px; }
-    body.page-index .ctrl-canvas line {
+    background-color: white; }
+  body.page-index .ctrl-field {
+    position: absolute;
+    left: 0;
+    top: 0; }
+    body.page-index .ctrl-field line {
       stroke: #000;
       stroke-width: 2; }
-    body.page-index .ctrl-canvas .start-pt {
+    body.page-index .ctrl-field .start-pt {
       r: 5; }
-    body.page-index .ctrl-canvas .end-pt {
+    body.page-index .ctrl-field .end-pt {
       r: 10;
       opacity: 0;
       -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; }
+  body.page-index .panel {
+    position: absolute;
+    left: 10px;
+    top: 10px; }

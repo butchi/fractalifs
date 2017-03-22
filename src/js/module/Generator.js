@@ -26,7 +26,7 @@ export default class Generator {
 
     this.$container = $('.container');
 
-    ns.$ctrlCanvas.append(this.arrow);
+    ns.ctrlField.append(this.arrow);
 
     this.line = opts.line || new Line({
       start: new Point({
@@ -42,6 +42,18 @@ export default class Generator {
     this.$container.one('mousedown', (evt) => {
       this.touchDownHandler(evt);
     });
+  }
+
+  replace() {
+    let startPx = px(this.line.start);
+    let endPx = px(this.line.end);
+
+    this.setStartLine(startPx);
+    this.setEndLine(endPx);
+
+    this.setStartPt(startPx);
+    this.setEndPt(endPx);
+    this.setArrowHead();
   }
 
   touchDownHandler(evt) {

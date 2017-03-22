@@ -15,12 +15,7 @@ export default class Index {
   initialize() {
     this.$container = $('.container');
 
-    this.canvas = document.createElement('canvas');
-    this.canvas.width = 256;
-    this.canvas.height = 256;
-    $(this.canvas).addClass('elm-canvas');
-
-    this.$container.append(this.canvas);
+    this.canvas = document.querySelector('.elm-canvas');
 
     this.circleImg = new Image();
     this.circleImg.src = 'img/circle.png';
@@ -28,9 +23,37 @@ export default class Index {
     this.lineImg = new Image();
     this.lineImg.src = 'img/line.png';
 
-    ns.$ctrlCanvas = $('.ctrl-canvas');
+    ns.ctrlField = document.querySelector('.ctrl-field');
 
-    this.$container.append(ns.$ctrlCanvas);
+    $(window).on('resize', () => {
+      this.setSize();
+
+      this.plot(8);
+
+      ns.gArr.forEach((elm) => {
+        elm.replace();
+      });
+    });
+
+    this.setSize();
+
+    ns.cornerPx = [
+      new Point({
+        x: 0,
+        y: 0,
+      }),
+      new Point({
+        x: ns.width,
+        y: ns.height,
+      }),
+    ];
+
+    ns.cornerUnit = [
+      unit(ns.cornerPx[0]),
+      unit(ns.cornerPx[1])
+    ];
+
+    this.$container.append(ns.ctrlField);
 
     this.ctx = this.canvas.getContext('2d');
 
@@ -65,10 +88,22 @@ export default class Index {
     });
   }
 
+  setSize() {
+    ns.width = $(window).width();
+    ns.height = $(window).height();
+
+    this.canvas.width = ns.width;
+    this.canvas.height = ns.height;
+
+    $(ns.ctrlField).attr('width', ns.width);
+    $(ns.ctrlField).attr('height', ns.height);
+    $(ns.ctrlField).attr('viewBox', `0 0 256 256`);
+  }
+
   plot(iteration = 0) {
     let maxIteration = Math.floor(Math.log(MAX_POINTS) / Math.log(ns.gArr.length));
     iteration = Math.min(iteration, maxIteration);
-    this.ctx.clearRect(0, 0, 256, 256);
+    this.ctx.clearRect(0, 0, ns.width, ns.height);
 
     ns.grid.plot();
 

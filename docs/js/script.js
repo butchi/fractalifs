@@ -58,7 +58,7 @@ var Generator = function () {
 
       this.$container = $('.container');
 
-      _ns2.default.$ctrlCanvas.append(this.arrow);
+      _ns2.default.ctrlField.append(this.arrow);
 
       this.line = opts.line || new _Line2.default({
         start: new _Point2.default({
@@ -74,6 +74,19 @@ var Generator = function () {
       this.$container.one('mousedown', function (evt) {
         _this.touchDownHandler(evt);
       });
+    }
+  }, {
+    key: 'replace',
+    value: function replace() {
+      var startPx = (0, _util.px)(this.line.start);
+      var endPx = (0, _util.px)(this.line.end);
+
+      this.setStartLine(startPx);
+      this.setEndLine(endPx);
+
+      this.setStartPt(startPx);
+      this.setEndPt(endPx);
+      this.setArrowHead();
     }
   }, {
     key: 'touchDownHandler',
@@ -326,10 +339,10 @@ var Grid = function () {
 
       this.interval = opts.interval || 1;
 
-      this.minX = -1;
-      this.minY = -1;
-      this.maxX = 1;
-      this.maxY = 1;
+      this.minX = Math.floor(_ns2.default.cornerUnit[0].x);
+      this.minY = -Math.ceil(_ns2.default.cornerUnit[0].y);
+      this.maxX = Math.ceil(_ns2.default.cornerUnit[1].x);
+      this.maxY = -Math.floor(_ns2.default.cornerUnit[1].y);
 
       this.lineArr = [];
       this.pointArr = [];
@@ -690,6 +703,10 @@ exports.mult = mult;
 exports.px = px;
 exports.unit = unit;
 
+var _ns = require('./ns');
+
+var _ns2 = _interopRequireDefault(_ns);
+
 var _Point = require('./Point');
 
 var _Point2 = _interopRequireDefault(_Point);
@@ -719,19 +736,19 @@ function mult(a, b) {
 
 function px(p) {
   return new _Point2.default({
-    x: p.x * 128 + 128,
-    y: -p.y * 128 + 128
+    x: p.x * 200 + _ns2.default.width / 2,
+    y: -p.y * 200 + _ns2.default.height / 2
   });
 }
 
 function unit(p) {
   return new _Point2.default({
-    x: (p.x - 128) / 128,
-    y: -(p.y - 128) / 128
+    x: (p.x - _ns2.default.width / 2) / 200,
+    y: -(p.y - _ns2.default.height / 2) / 200
   });
 }
 
-},{"./Point":5}],9:[function(require,module,exports){
+},{"./Point":5,"./ns":7}],9:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -843,12 +860,7 @@ var Index = function () {
 
       this.$container = $('.container');
 
-      this.canvas = document.createElement('canvas');
-      this.canvas.width = 256;
-      this.canvas.height = 256;
-      $(this.canvas).addClass('elm-canvas');
-
-      this.$container.append(this.canvas);
+      this.canvas = document.querySelector('.elm-canvas');
 
       this.circleImg = new Image();
       this.circleImg.src = 'img/circle.png';
@@ -856,9 +868,31 @@ var Index = function () {
       this.lineImg = new Image();
       this.lineImg.src = 'img/line.png';
 
-      _ns2.default.$ctrlCanvas = $('.ctrl-canvas');
+      _ns2.default.ctrlField = document.querySelector('.ctrl-field');
 
-      this.$container.append(_ns2.default.$ctrlCanvas);
+      $(window).on('resize', function () {
+        _this.setSize();
+
+        _this.plot(8);
+
+        _ns2.default.gArr.forEach(function (elm) {
+          elm.replace();
+        });
+      });
+
+      this.setSize();
+
+      _ns2.default.cornerPx = [new _Point2.default({
+        x: 0,
+        y: 0
+      }), new _Point2.default({
+        x: _ns2.default.width,
+        y: _ns2.default.height
+      })];
+
+      _ns2.default.cornerUnit = [(0, _util.unit)(_ns2.default.cornerPx[0]), (0, _util.unit)(_ns2.default.cornerPx[1])];
+
+      this.$container.append(_ns2.default.ctrlField);
 
       this.ctx = this.canvas.getContext('2d');
 
@@ -893,6 +927,19 @@ var Index = function () {
       });
     }
   }, {
+    key: 'setSize',
+    value: function setSize() {
+      _ns2.default.width = $(window).width();
+      _ns2.default.height = $(window).height();
+
+      this.canvas.width = _ns2.default.width;
+      this.canvas.height = _ns2.default.height;
+
+      $(_ns2.default.ctrlField).attr('width', _ns2.default.width);
+      $(_ns2.default.ctrlField).attr('height', _ns2.default.height);
+      $(_ns2.default.ctrlField).attr('viewBox', '0 0 256 256');
+    }
+  }, {
     key: 'plot',
     value: function plot() {
       var _this2 = this;
@@ -901,7 +948,7 @@ var Index = function () {
 
       var maxIteration = Math.floor(Math.log(MAX_POINTS) / Math.log(_ns2.default.gArr.length));
       iteration = Math.min(iteration, maxIteration);
-      this.ctx.clearRect(0, 0, 256, 256);
+      this.ctx.clearRect(0, 0, _ns2.default.width, _ns2.default.height);
 
       _ns2.default.grid.plot();
 

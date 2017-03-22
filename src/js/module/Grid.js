@@ -16,10 +16,10 @@ export default class Grid {
 
     this.interval = opts.interval || 1;
 
-    this.minX = -1;
-    this.minY = -1;
-    this.maxX =  1;
-    this.maxY =  1;
+    this.minX = Math.floor(ns.cornerUnit[0].x);
+    this.minY = - Math.ceil(ns.cornerUnit[0].y);
+    this.maxX = Math.ceil(ns.cornerUnit[1].x);
+    this.maxY = - Math.floor(ns.cornerUnit[1].y);
 
     this.lineArr = [];
     this.pointArr = [];
