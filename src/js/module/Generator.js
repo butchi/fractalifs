@@ -14,6 +14,10 @@ export default class Generator {
 
     this.lineElm = document.createElementNS('http://www.w3.org/2000/svg', 'line');
 
+    this.arrowHeadElm = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    this.arrowHeadElm.setAttribute('class', 'arrow-head');
+    this.arrowHeadElm.setAttribute('d', 'M2 0 L-16 8 L-10 0 L-16 -8 L2 0  Z');
+
     this.startPt = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
     this.endPt = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
 
@@ -55,7 +59,7 @@ export default class Generator {
       pointPx = px(pointUnit);
     }
 
-    this.line.start = unit(pointPx);
+    this.line.start = pointUnit;
 
     this.setStartLine(pointPx);
     this.setEndLine(pointPx);
@@ -64,7 +68,10 @@ export default class Generator {
 
     this.setStartPt(pointPx);
     this.setEndPt(pointPx);
+    this.setArrowHead();
 
+    this.arrowHeadElm.setAttribute('visibility', 'hidden');
+    this.arrow.append(this.arrowHeadElm);
     this.arrow.append(this.startPt);
 
     this.$container.on('mousemove', (evt) => {
@@ -97,11 +104,13 @@ export default class Generator {
           pointPx = px(pointUnit);
         }
 
-        this.line.start = unit(pointPx);
+        this.line.start = pointUnit;
 
         this.setStartLine(pointPx);
 
         this.setStartPt(pointPx);
+
+        this.setArrowHead();
 
         this.$container.trigger('replot-fractal', 8);
       });
@@ -135,6 +144,8 @@ export default class Generator {
 
         this.setEndPt(pointPx);
 
+        this.setArrowHead();
+
         this.$container.trigger('replot-fractal', 8);
       });
     });
@@ -154,6 +165,8 @@ export default class Generator {
       }));
       pointPx = px(pointUnit);
     }
+
+    this.setArrowHead();
 
     this.line.end = pointUnit;
     this.setEndLine(pointPx);
@@ -182,6 +195,10 @@ export default class Generator {
     this.setEndLine(pointPx);
     this.setEndPt(pointPx);
 
+    this.setArrowHead();
+
+    this.arrowHeadElm.setAttribute('visibility', 'visible');
+
     this.arrow.append(this.endPt);
 
     this.$container.trigger('set-line');
@@ -195,6 +212,14 @@ export default class Generator {
   setEndPt(p) {
     this.endPt.setAttribute('cx', p.x);
     this.endPt.setAttribute('cy', p.y);
+  }
+
+  setArrowHead() {
+    let p = px(this.line.end);
+
+    let angle = - this.line.arg() * 180 / Math.PI;
+
+    this.arrowHeadElm.setAttribute('transform', `rotate(${angle}, ${p.x}, ${p.y}) translate(${p.x} ${p.y})`);
   }
 
   setStartLine(p) {

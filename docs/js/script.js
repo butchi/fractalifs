@@ -46,6 +46,10 @@ var Generator = function () {
 
       this.lineElm = document.createElementNS('http://www.w3.org/2000/svg', 'line');
 
+      this.arrowHeadElm = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      this.arrowHeadElm.setAttribute('class', 'arrow-head');
+      this.arrowHeadElm.setAttribute('d', 'M2 0 L-16 8 L-10 0 L-16 -8 L2 0  Z');
+
       this.startPt = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
       this.endPt = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
 
@@ -90,7 +94,7 @@ var Generator = function () {
         pointPx = (0, _util.px)(pointUnit);
       }
 
-      this.line.start = (0, _util.unit)(pointPx);
+      this.line.start = pointUnit;
 
       this.setStartLine(pointPx);
       this.setEndLine(pointPx);
@@ -99,7 +103,10 @@ var Generator = function () {
 
       this.setStartPt(pointPx);
       this.setEndPt(pointPx);
+      this.setArrowHead();
 
+      this.arrowHeadElm.setAttribute('visibility', 'hidden');
+      this.arrow.append(this.arrowHeadElm);
       this.arrow.append(this.startPt);
 
       this.$container.on('mousemove', function (evt) {
@@ -132,11 +139,13 @@ var Generator = function () {
             pointPx = (0, _util.px)(pointUnit);
           }
 
-          _this2.line.start = (0, _util.unit)(pointPx);
+          _this2.line.start = pointUnit;
 
           _this2.setStartLine(pointPx);
 
           _this2.setStartPt(pointPx);
+
+          _this2.setArrowHead();
 
           _this2.$container.trigger('replot-fractal', 8);
         });
@@ -170,6 +179,8 @@ var Generator = function () {
 
           _this2.setEndPt(pointPx);
 
+          _this2.setArrowHead();
+
           _this2.$container.trigger('replot-fractal', 8);
         });
       });
@@ -190,6 +201,8 @@ var Generator = function () {
         }));
         pointPx = (0, _util.px)(pointUnit);
       }
+
+      this.setArrowHead();
 
       this.line.end = pointUnit;
       this.setEndLine(pointPx);
@@ -219,6 +232,10 @@ var Generator = function () {
       this.setEndLine(pointPx);
       this.setEndPt(pointPx);
 
+      this.setArrowHead();
+
+      this.arrowHeadElm.setAttribute('visibility', 'visible');
+
       this.arrow.append(this.endPt);
 
       this.$container.trigger('set-line');
@@ -234,6 +251,15 @@ var Generator = function () {
     value: function setEndPt(p) {
       this.endPt.setAttribute('cx', p.x);
       this.endPt.setAttribute('cy', p.y);
+    }
+  }, {
+    key: 'setArrowHead',
+    value: function setArrowHead() {
+      var p = (0, _util.px)(this.line.end);
+
+      var angle = -this.line.arg() * 180 / Math.PI;
+
+      this.arrowHeadElm.setAttribute('transform', 'rotate(' + angle + ', ' + p.x + ', ' + p.y + ') translate(' + p.x + ' ' + p.y + ')');
     }
   }, {
     key: 'setStartLine',
