@@ -14,7 +14,7 @@ export default class Grid {
 
     this.type = opts.type;
 
-    this.interval = 1/2;
+    this.interval = opts.interval || 1;
 
     this.minX = -1;
     this.minY = -1;

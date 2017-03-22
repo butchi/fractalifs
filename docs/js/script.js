@@ -324,7 +324,7 @@ var Grid = function () {
 
       this.type = opts.type;
 
-      this.interval = 1 / 2;
+      this.interval = opts.interval || 1;
 
       this.minX = -1;
       this.minY = -1;
@@ -829,7 +829,7 @@ var Index = function () {
 
       _ns2.default.grid = new _Grid2.default({
         type: 'square',
-        interval: 1 / 2,
+        interval: 1 / 4,
         canvas: this.canvas
       });
 

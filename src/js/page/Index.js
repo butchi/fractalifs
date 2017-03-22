@@ -36,7 +36,7 @@ export default class Index {
 
     ns.grid = new Grid({
       type: 'square',
-      interval: 1/2,
+      interval: 1/4,
       canvas: this.canvas,
     });
 
