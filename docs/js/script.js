@@ -138,29 +138,7 @@ var Generator = function () {
         });
 
         _this2.$container.on('mousemove', function (evt) {
-          var x = evt.pageX;
-          var y = evt.pageY;
-
-          var pointPx = new _Point2.default({ x: x, y: y });
-          var pointUnit = (0, _util.unit)(pointPx);
-
-          if (_ns2.default.snapFlag) {
-            pointUnit = _ns2.default.grid.nn(new _Point2.default({
-              x: pointUnit.x,
-              y: pointUnit.y
-            }));
-            pointPx = (0, _util.px)(pointUnit);
-          }
-
-          _this2.line.start = pointUnit;
-
-          _this2.setStartLine(pointPx);
-
-          _this2.setStartPt(pointPx);
-
-          _this2.setArrowHead();
-
-          _this2.$container.trigger('replot-fractal', 8);
+          _this2.startMoveHandler(evt);
         });
       });
 
@@ -172,29 +150,7 @@ var Generator = function () {
         });
 
         _this2.$container.on('mousemove', function (evt) {
-          var x = evt.pageX;
-          var y = evt.pageY;
-
-          var pointPx = new _Point2.default({ x: x, y: y });
-          var pointUnit = (0, _util.unit)(pointPx);
-
-          if (_ns2.default.snapFlag) {
-            pointUnit = _ns2.default.grid.nn(new _Point2.default({
-              x: pointUnit.x,
-              y: pointUnit.y
-            }));
-            pointPx = (0, _util.px)(pointUnit);
-          }
-
-          _this2.line.end = pointUnit;
-
-          _this2.setEndLine(pointPx);
-
-          _this2.setEndPt(pointPx);
-
-          _this2.setArrowHead();
-
-          _this2.$container.trigger('replot-fractal', 8);
+          _this2.endMoveHandler();
         });
       });
     }
@@ -252,6 +208,60 @@ var Generator = function () {
       this.arrow.append(this.endPt);
 
       this.$container.trigger('set-line');
+    }
+  }, {
+    key: 'startMoveHandler',
+    value: function startMoveHandler(evt) {
+      var x = evt.pageX;
+      var y = evt.pageY;
+
+      var pointPx = new _Point2.default({ x: x, y: y });
+      var pointUnit = (0, _util.unit)(pointPx);
+
+      if (_ns2.default.snapFlag) {
+        pointUnit = _ns2.default.grid.nn(new _Point2.default({
+          x: pointUnit.x,
+          y: pointUnit.y
+        }));
+        pointPx = (0, _util.px)(pointUnit);
+      }
+
+      this.line.start = pointUnit;
+
+      this.setStartLine(pointPx);
+
+      this.setStartPt(pointPx);
+
+      this.setArrowHead();
+
+      this.$container.trigger('replot-fractal', 8);
+    }
+  }, {
+    key: 'endMoveHandler',
+    value: function endMoveHandler(evt) {
+      var x = evt.pageX;
+      var y = evt.pageY;
+
+      var pointPx = new _Point2.default({ x: x, y: y });
+      var pointUnit = (0, _util.unit)(pointPx);
+
+      if (_ns2.default.snapFlag) {
+        pointUnit = _ns2.default.grid.nn(new _Point2.default({
+          x: pointUnit.x,
+          y: pointUnit.y
+        }));
+        pointPx = (0, _util.px)(pointUnit);
+      }
+
+      this.line.end = pointUnit;
+
+      this.setEndLine(pointPx);
+
+      this.setEndPt(pointPx);
+
+      this.setArrowHead();
+
+      this.$container.trigger('replot-fractal', 8);
     }
   }, {
     key: 'setStartPt',

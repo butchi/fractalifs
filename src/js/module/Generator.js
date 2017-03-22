@@ -102,29 +102,7 @@ export default class Generator {
       });
 
       this.$container.on('mousemove', (evt) => {
-        let x = evt.pageX;
-        let y = evt.pageY;
-
-        let pointPx = new Point({x, y});
-        let pointUnit = unit(pointPx);
-
-        if(ns.snapFlag) {
-          pointUnit = ns.grid.nn(new Point({
-            x: pointUnit.x,
-            y: pointUnit.y,
-          }));
-          pointPx = px(pointUnit);
-        }
-
-        this.line.start = pointUnit;
-
-        this.setStartLine(pointPx);
-
-        this.setStartPt(pointPx);
-
-        this.setArrowHead();
-
-        this.$container.trigger('replot-fractal', 8);
+        this.startMoveHandler(evt);
       });
     });
 
@@ -136,29 +114,7 @@ export default class Generator {
       });
 
       this.$container.on('mousemove', (evt) => {
-        let x = evt.pageX;
-        let y = evt.pageY;
-
-        let pointPx = new Point({x, y});
-        let pointUnit = unit(pointPx);
-
-        if(ns.snapFlag) {
-          pointUnit = ns.grid.nn(new Point({
-            x: pointUnit.x,
-            y: pointUnit.y,
-          }));
-          pointPx = px(pointUnit);
-        }
-
-        this.line.end = pointUnit;
-
-        this.setEndLine(pointPx);
-
-        this.setEndPt(pointPx);
-
-        this.setArrowHead();
-
-        this.$container.trigger('replot-fractal', 8);
+        this.endMoveHandler();
       });
     });
   }
@@ -214,6 +170,58 @@ export default class Generator {
     this.arrow.append(this.endPt);
 
     this.$container.trigger('set-line');
+  }
+
+  startMoveHandler(evt) {
+    let x = evt.pageX;
+    let y = evt.pageY;
+
+    let pointPx = new Point({x, y});
+    let pointUnit = unit(pointPx);
+
+    if(ns.snapFlag) {
+      pointUnit = ns.grid.nn(new Point({
+        x: pointUnit.x,
+        y: pointUnit.y,
+      }));
+      pointPx = px(pointUnit);
+    }
+
+    this.line.start = pointUnit;
+
+    this.setStartLine(pointPx);
+
+    this.setStartPt(pointPx);
+
+    this.setArrowHead();
+
+    this.$container.trigger('replot-fractal', 8);
+  }
+
+  endMoveHandler(evt) {
+    let x = evt.pageX;
+    let y = evt.pageY;
+
+    let pointPx = new Point({x, y});
+    let pointUnit = unit(pointPx);
+
+    if(ns.snapFlag) {
+      pointUnit = ns.grid.nn(new Point({
+        x: pointUnit.x,
+        y: pointUnit.y,
+      }));
+      pointPx = px(pointUnit);
+    }
+
+    this.line.end = pointUnit;
+
+    this.setEndLine(pointPx);
+
+    this.setEndPt(pointPx);
+
+    this.setArrowHead();
+
+    this.$container.trigger('replot-fractal', 8);
   }
 
   setStartPt(p) {
