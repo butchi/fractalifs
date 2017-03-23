@@ -16,7 +16,8 @@ block ContentBlock
     .panel
       button.btn-add-generator
         | ジェネレーター追加
-      label
-        input(type="checkbox", data-js-class="snap")
-        | グリッドにスナップ
+      label.mdl-checkbox.mdl-js-checkbox.mdl-js-ripple-effect(for="mdl-checkbox__input")
+        input.mdl-checkbox__input#checkbox-snap(type="checkbox", data-js-class="snap")
+        span.mdl-checkbox__label
+          | グリッドにスナップ
       select(data-js-class="preset")
