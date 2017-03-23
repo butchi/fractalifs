@@ -94,9 +94,23 @@ export default class Index {
       this.plot(iteration);
     });
 
-    let $presetSelect = $('[data-js-class~="preset"]');
+    let $preset = $('[data-js-class~="preset"]');
+    let $presetList = $('[data-js-class~="preset__list"]');
+    let $presetInput = $('[data-js-class~="preset__input"]');
 
-    $presetSelect.on('change', (evt) => {
+    $('[data-js-class~="preset__list"]').on('click', 'li', (evt) => {
+        var key = $(evt.target).attr('data-value');
+        var name = $(evt.target).text();
+
+        $(evt.target).parents('.mdl-select').addClass('is-dirty').children('input').val(name);
+
+        $presetInput.trigger('change', {
+          key: key,
+          name: name,
+        });
+    });
+
+    $presetInput.on('change', (evt, opts = {}) => {
       function getGenerator(arr) {
         let ret = [];
         arr.forEach((item) => {
@@ -117,7 +131,9 @@ export default class Index {
         return ret;
       }
 
-      let key = $(evt.target).val();
+      let name = opts.name || $(evt.target).val();
+
+      let key = (_.findKey(presetLi, (item) => (item.name === name)));
 
       if(key === '') {
         return;
@@ -188,12 +204,10 @@ export default class Index {
       },
     };
 
-    $presetSelect.append('<option value="">プリセット</option>');
-
     Object.keys(presetLi).forEach((key) => {
       let preset = presetLi[key];
 
-      $presetSelect.append(`<option value="${key}">${preset.name}</option>`);
+      $presetList.append(`<li class="mdl-menu__item" data-value="${key}">${preset.name}</li>`);
     });
   }
 

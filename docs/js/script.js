@@ -943,9 +943,25 @@ var Index = function () {
         _this.plot(iteration);
       });
 
-      var $presetSelect = $('[data-js-class~="preset"]');
+      var $preset = $('[data-js-class~="preset"]');
+      var $presetList = $('[data-js-class~="preset__list"]');
+      var $presetInput = $('[data-js-class~="preset__input"]');
 
-      $presetSelect.on('change', function (evt) {
+      $('[data-js-class~="preset__list"]').on('click', 'li', function (evt) {
+        var key = $(evt.target).attr('data-value');
+        var name = $(evt.target).text();
+
+        $(evt.target).parents('.mdl-select').addClass('is-dirty').children('input').val(name);
+
+        $presetInput.trigger('change', {
+          key: key,
+          name: name
+        });
+      });
+
+      $presetInput.on('change', function (evt) {
+        var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
         function getGenerator(arr) {
           var ret = [];
           arr.forEach(function (item) {
@@ -966,7 +982,11 @@ var Index = function () {
           return ret;
         }
 
-        var key = $(evt.target).val();
+        var name = opts.name || $(evt.target).val();
+
+        var key = _.findKey(presetLi, function (item) {
+          return item.name === name;
+        });
 
         if (key === '') {
           return;
@@ -1015,12 +1035,10 @@ var Index = function () {
         }
       };
 
-      $presetSelect.append('<option value="">プリセット</option>');
-
       Object.keys(presetLi).forEach(function (key) {
         var preset = presetLi[key];
 
-        $presetSelect.append('<option value="' + key + '">' + preset.name + '</option>');
+        $presetList.append('<li class="mdl-menu__item" data-value="' + key + '">' + preset.name + '</li>');
       });
     }
   }, {

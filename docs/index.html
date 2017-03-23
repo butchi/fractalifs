@@ -38,7 +38,11 @@
           <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-snap">
             <input class="mdl-checkbox__input" id="checkbox-snap" type="checkbox" data-js-class="snap"><span class="mdl-checkbox__label">グリッドにスナップ</span>
           </label>
-          <select data-js-class="preset"></select>
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-select" data-js-class="preset">
+            <input class="mdl-textfield__input" id="preset__input" type="text" data-js-class="preset__input">
+            <label class="mdl-textfield__label">プリセット</label>
+            <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="preset__input" data-js-class="preset__list"></ul>
+          </div>
         </div>
       </main>
     </div>
@@ -47,6 +51,6 @@
     <script src="./js/lib/lodash.min.js"></script>
     <script src="./js/lib/material.min.js"></script>
     <script src="https://use.fontawesome.com/afa49e4fb3.js"></script>
-    <script src="js/script.js?v=32"></script>
+    <script src="js/script.js?v=33"></script>
   </body>
 </html>
