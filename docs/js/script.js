@@ -150,7 +150,7 @@ var Generator = function () {
         });
 
         _this2.$container.on('mousemove', function (evt) {
-          _this2.endMoveHandler();
+          _this2.endMoveHandler(evt);
         });
       });
     }
@@ -941,6 +941,78 @@ var Index = function () {
 
       this.$container.on('replot-fractal', function (_evt, iteration) {
         _this.plot(iteration);
+      });
+
+      var $presetSelect = $('[data-js-class~="preset"]');
+
+      $presetSelect.on('change', function (evt) {
+        function getGenerator(arr) {
+          var ret = [];
+          arr.forEach(function (item) {
+            ret.push(new _Generator2.default({
+              line: new _Line2.default({
+                start: new _Point2.default({
+                  x: item[0],
+                  y: item[1]
+                }),
+                end: new _Point2.default({
+                  x: item[2],
+                  y: item[3]
+                })
+              })
+            }));
+          });
+
+          return ret;
+        }
+
+        var key = $(evt.target).val();
+
+        if (key === '') {
+          return;
+        }
+
+        _ns2.default.ctrlField.innerHTML = '';
+
+        _ns2.default.gArr = getGenerator(presetLi[key].generator);
+
+        _ns2.default.gArr.forEach(function (g) {
+          var startPx = (0, _util.px)(g.line.start);
+          var endPx = (0, _util.px)(g.line.end);
+
+          g.touchDownHandler({
+            pageX: startPx.x,
+            pageY: startPx.y
+          });
+
+          _this.$container.off('mousedown');
+          _this.$container.off('mousemove');
+          _this.$container.off('mouseup');
+
+          g.touchUpHandler({
+            pageX: endPx.x,
+            pageY: endPx.y
+          });
+        });
+      });
+
+      var presetLi = {
+        ccurve: {
+          name: 'C曲線',
+          generator: [[0, 0, 1 / 2, 1 / 2], [1 / 2, 1 / 2, 1, 0]]
+        },
+        dragon: {
+          name: 'ドラゴン曲線',
+          generator: [[0, 0, 1 / 2, 1 / 2], [1, 0, 1 / 2, 1 / 2]]
+        }
+      };
+
+      $presetSelect.append('<option value="">プリセット</option>');
+
+      Object.keys(presetLi).forEach(function (key) {
+        var preset = presetLi[key];
+
+        $presetSelect.append('<option value="' + key + '">' + preset.name + '</option>');
       });
     }
   }, {

@@ -93,6 +93,84 @@ export default class Index {
     this.$container.on('replot-fractal', (_evt, iteration) => {
       this.plot(iteration);
     });
+
+    let $presetSelect = $('[data-js-class~="preset"]');
+
+    $presetSelect.on('change', (evt) => {
+      function getGenerator(arr) {
+        let ret = [];
+        arr.forEach((item) => {
+          ret.push(new Generator({
+            line: new Line({
+              start: new Point({
+                x: item[0],
+                y: item[1],
+              }),
+              end: new Point({
+                x: item[2],
+                y: item[3],
+              }),
+            }),
+          }));
+        });
+
+        return ret;
+      }
+
+      let key = $(evt.target).val();
+
+      if(key === '') {
+        return;
+      }
+
+      ns.ctrlField.innerHTML = '';
+
+      ns.gArr = getGenerator(presetLi[key].generator);
+
+      ns.gArr.forEach((g) => {
+        let startPx = px(g.line.start);
+        let endPx = px(g.line.end);
+
+        g.touchDownHandler({
+          pageX: startPx.x,
+          pageY: startPx.y,
+        });
+
+        this.$container.off('mousedown');
+        this.$container.off('mousemove');
+        this.$container.off('mouseup');
+
+        g.touchUpHandler({
+          pageX: endPx.x,
+          pageY: endPx.y,
+        });
+      });
+    });
+
+    let presetLi = {
+      ccurve: {
+        name: 'C曲線',
+        generator: [
+          [0,   0,   1/2, 1/2],
+          [1/2, 1/2, 1,   0]
+        ],
+      },
+      dragon: {
+        name: 'ドラゴン曲線',
+        generator: [
+          [0, 0, 1/2, 1/2],
+          [1, 0, 1/2, 1/2]
+        ],
+      },
+    };
+
+    $presetSelect.append('<option value="">プリセット</option>');
+
+    Object.keys(presetLi).forEach((key) => {
+      let preset = presetLi[key];
+
+      $presetSelect.append(`<option value="${key}">${preset.name}</option>`);
+    });
   }
 
   setSize() {

@@ -114,7 +114,7 @@ export default class Generator {
       });
 
       this.$container.on('mousemove', (evt) => {
-        this.endMoveHandler();
+        this.endMoveHandler(evt);
       });
     });
   }
