@@ -20,6 +20,7 @@
     <meta property="twitter:description" content="web-starter web page.">
     <script src="./js/ua-switch.js"></script>
     <!-- stylesheet-->
+    <link rel="stylesheet" href="./css/lib/material.min.css">
     <link rel="stylesheet" href="css/style.css?v=8">
   </head>
   <body class="page-index">
@@ -31,8 +32,8 @@
         </div>
         <div class="panel">
           <button class="btn-add-generator">ジェネレーター追加</button>
-          <label>
-            <input type="checkbox" data-js-class="snap">グリッドにスナップ
+          <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="mdl-checkbox__input">
+            <input class="mdl-checkbox__input" id="checkbox-snap" type="checkbox" data-js-class="snap"><span class="mdl-checkbox__label">グリッドにスナップ</span>
           </label>
           <select data-js-class="preset"></select>
         </div>
@@ -41,6 +42,7 @@
     <!-- javascript-->
     <script src="./js/lib/jquery.min.js"></script>
     <script src="./js/lib/lodash.min.js"></script>
+    <script src="./js/lib/material.min.js"></script>
     <script src="js/script.js?v=32"></script>
   </body>
 </html>
