@@ -31,8 +31,11 @@
           <svg class="ctrl-field" xmlns="http://www.w3.org/2000/svg"></svg>
         </div>
         <div class="panel">
-          <button class="btn-add-generator">ジェネレーター追加</button>
-          <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="mdl-checkbox__input">
+          <button class="btn-add-generator" id="btn-add-generator"><i class="fa fa-plus" aria-hidden="true"></i></button>
+          <div class="mdl-tooltip" data-mdl-for="btn-add-generator">ジェネレーター追加</div>
+          <button id="btn-edit"><i class="fa fa-mouse-pointer" aria-hidden="true"></i></button>
+          <div class="mdl-tooltip" data-mdl-for="btn-edit">頂点編集</div>
+          <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-snap">
             <input class="mdl-checkbox__input" id="checkbox-snap" type="checkbox" data-js-class="snap"><span class="mdl-checkbox__label">グリッドにスナップ</span>
           </label>
           <select data-js-class="preset"></select>
@@ -43,6 +46,7 @@
     <script src="./js/lib/jquery.min.js"></script>
     <script src="./js/lib/lodash.min.js"></script>
     <script src="./js/lib/material.min.js"></script>
+    <script src="https://use.fontawesome.com/afa49e4fb3.js"></script>
     <script src="js/script.js?v=32"></script>
   </body>
 </html>

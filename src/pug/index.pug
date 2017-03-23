@@ -14,10 +14,19 @@ block ContentBlock
       svg.ctrl-field(xmlns="http://www.w3.org/2000/svg")
 
     .panel
-      button.btn-add-generator
+      button.btn-add-generator#btn-add-generator
+        i.fa.fa-plus(aria-hidden="true")
+      .mdl-tooltip(data-mdl-for="btn-add-generator")
         | ジェネレーター追加
-      label.mdl-checkbox.mdl-js-checkbox.mdl-js-ripple-effect(for="mdl-checkbox__input")
+
+      button#btn-edit
+        i.fa.fa-mouse-pointer(aria-hidden="true")
+      .mdl-tooltip(data-mdl-for="btn-edit")
+        | 頂点編集
+
+      label.mdl-checkbox.mdl-js-checkbox.mdl-js-ripple-effect(for="checkbox-snap")
         input.mdl-checkbox__input#checkbox-snap(type="checkbox", data-js-class="snap")
         span.mdl-checkbox__label
           | グリッドにスナップ
+
       select(data-js-class="preset")
