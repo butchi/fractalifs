@@ -2,7 +2,7 @@
   "name": "butchi-web-starter-kit",
   "version": "0.0.0",
   "description": "description",
-  "main": "js/main.min.js",
+  "main": "docs/js/script.js",
   "authors": [
     "IWABUCHI Yuuki"
   ],

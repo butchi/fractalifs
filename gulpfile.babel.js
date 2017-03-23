@@ -55,16 +55,15 @@ gulp.task('sass', () => {
   ;
 });
 
-// gulp.task('css', gulp.series(gulp.parallel('sass', 'copy-bower-css')));
-gulp.task('css', gulp.series('sass'));
+gulp.task('css', gulp.series(gulp.parallel('sass', 'copy-bower-css')));
 
 
 // js
 gulp.task('copy-bower-js', () => { 
   return gulp.src(
     [
-      // 'material-design-lite/material.min.js',
-      // 'material-design-lite/material.min.js.map',
+      'material-design-lite/material.min.js',
+      'material-design-lite/material.min.js.map',
       'jquery/dist/jquery.min.js',
       'jquery/dist/jquery.min.map',
       'lodash/dist/lodash.min.js'
