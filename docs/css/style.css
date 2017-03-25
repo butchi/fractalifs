@@ -151,3 +151,7 @@ body.page-index {
     position: absolute;
     left: 10px;
     top: 10px; }
+    body.page-index .panel .snap {
+      width: auto; }
+    body.page-index .panel .preset {
+      display: block; }

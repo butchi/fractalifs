@@ -66,5 +66,13 @@ body.page-index {
 
     left: 10px;
     top: 10px;
+
+    .snap {
+      width: auto;
+    }
+
+    .preset {
+      display: block;
+    }
   }
 }
