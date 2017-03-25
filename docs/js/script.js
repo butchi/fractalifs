@@ -303,7 +303,7 @@ var Generator = function () {
 
 exports.default = Generator;
 
-},{"../module/Line":3,"../module/Point":5,"./ns":7,"./util":8}],2:[function(require,module,exports){
+},{"../module/Line":3,"../module/Point":5,"./ns":7,"./util":9}],2:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -466,7 +466,7 @@ var Grid = function () {
 
 exports.default = Grid;
 
-},{"./Line":3,"./Point":5,"./ns":7,"./util":8}],3:[function(require,module,exports){
+},{"./Line":3,"./Point":5,"./ns":7,"./util":9}],3:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -534,7 +534,7 @@ var Line = function () {
 
 exports.default = Line;
 
-},{"./util":8}],4:[function(require,module,exports){
+},{"./util":9}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -686,7 +686,7 @@ var Router = function () {
 
 exports.default = Router;
 
-},{"../page/Common":9,"../page/Index":10,"./ns":7}],7:[function(require,module,exports){
+},{"../page/Common":10,"../page/Index":11,"./ns":7}],7:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -702,6 +702,45 @@ var ns = window.App;
 exports.default = ns;
 
 },{}],8:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var presetLi = {
+  ccurve: {
+    name: 'C曲線',
+    generator: [[0, 0, 1 / 2, 1 / 2], [1 / 2, 1 / 2, 1, 0]]
+  },
+  dragon: {
+    name: 'ドラゴン曲線',
+    generator: [[0, 0, 1 / 2, 1 / 2], [1, 0, 1 / 2, 1 / 2]]
+  },
+  koch: {
+    name: 'コッホ曲線',
+    generator: [[0, 0, 1 / 3, 0], [1 / 3, 0, 1 / 2, Math.sqrt(3) / 6], [1 / 2, Math.sqrt(3) / 6, 2 / 3, 0], [2 / 3, 0, 1, 0]]
+  },
+  sierpinskiCarpet: {
+    name: 'シェルピンスキーのカーペット',
+    generator: [[0, 0, 1 / 3, 0], [1 / 3, 0, 2 / 3, 0], [2 / 3, 0, 1, 0], [0, 1 / 3, 1 / 3, 1 / 3], [2 / 3, 1 / 3, 1, 1 / 3], [0, 2 / 3, 1 / 3, 2 / 3], [1 / 3, 2 / 3, 2 / 3, 2 / 3], [2 / 3, 2 / 3, 1, 2 / 3]]
+  },
+  sierpinskiGasket: {
+    name: 'シェルピンスキーのギャスケット',
+    generator: [[0, 0, 1 / 2, 0], [1 / 2, 0, 1, 0], [1 / 4, Math.sqrt(3) / 4, 3 / 4, Math.sqrt(3) / 4]]
+  },
+  cantorDust: {
+    name: 'カントールの塵集合',
+    generator: [[0, 0, 1 / 3, 0], [2 / 3, 0, 1, 0], [0, 2 / 3, 1 / 3, 2 / 3], [2 / 3, 2 / 3, 1, 2 / 3]]
+  },
+  minkowskiSausage: {
+    name: 'ミンコフスキーのソーセージ',
+    generator: [[0, 0, 1 / 4, 0], [1 / 4, 0, 1 / 4, 1 / 4], [1 / 4, 1 / 4, 1 / 2, 1 / 4], [1 / 2, 1 / 4, 1 / 2, 0], [1 / 2, 0, 1 / 2, -1 / 4], [1 / 2, -1 / 4, 3 / 4, -1 / 4], [3 / 4, -1 / 4, 3 / 4, 0], [3 / 4, 0, 1, 0]]
+  }
+};
+
+exports.default = presetLi;
+
+},{}],9:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -758,7 +797,7 @@ function unit(p) {
   });
 }
 
-},{"./Point":5,"./ns":7}],9:[function(require,module,exports){
+},{"./Point":5,"./ns":7}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -817,7 +856,7 @@ var Common = function () {
 
 exports.default = Common;
 
-},{"../module/ns":7}],10:[function(require,module,exports){
+},{"../module/ns":7}],11:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -845,6 +884,10 @@ var _Grid2 = _interopRequireDefault(_Grid);
 var _Generator = require('../module/Generator');
 
 var _Generator2 = _interopRequireDefault(_Generator);
+
+var _presetList = require('../module/preset-list');
+
+var _presetList2 = _interopRequireDefault(_presetList);
 
 var _util = require('../module/util');
 
@@ -984,7 +1027,7 @@ var Index = function () {
 
         var name = opts.name || $(evt.target).val();
 
-        var key = _.findKey(presetLi, function (item) {
+        var key = _.findKey(_presetList2.default, function (item) {
           return item.name === name;
         });
 
@@ -994,7 +1037,7 @@ var Index = function () {
 
         _ns2.default.ctrlField.innerHTML = '';
 
-        _ns2.default.gArr = getGenerator(presetLi[key].generator);
+        _ns2.default.gArr = getGenerator(_presetList2.default[key].generator);
 
         _ns2.default.gArr.forEach(function (g) {
           var startPx = (0, _util.px)(g.line.start);
@@ -1016,39 +1059,8 @@ var Index = function () {
         });
       });
 
-      var presetLi = {
-        ccurve: {
-          name: 'C曲線',
-          generator: [[0, 0, 1 / 2, 1 / 2], [1 / 2, 1 / 2, 1, 0]]
-        },
-        dragon: {
-          name: 'ドラゴン曲線',
-          generator: [[0, 0, 1 / 2, 1 / 2], [1, 0, 1 / 2, 1 / 2]]
-        },
-        koch: {
-          name: 'コッホ曲線',
-          generator: [[0, 0, 1 / 3, 0], [1 / 3, 0, 1 / 2, Math.sqrt(3) / 6], [1 / 2, Math.sqrt(3) / 6, 2 / 3, 0], [2 / 3, 0, 1, 0]]
-        },
-        sierpinskiCarpet: {
-          name: 'シェルピンスキーのカーペット',
-          generator: [[0, 0, 1 / 3, 0], [1 / 3, 0, 2 / 3, 0], [2 / 3, 0, 1, 0], [0, 1 / 3, 1 / 3, 1 / 3], [2 / 3, 1 / 3, 1, 1 / 3], [0, 2 / 3, 1 / 3, 2 / 3], [1 / 3, 2 / 3, 2 / 3, 2 / 3], [2 / 3, 2 / 3, 1, 2 / 3]]
-        },
-        sierpinskiGasket: {
-          name: 'シェルピンスキーのギャスケット',
-          generator: [[0, 0, 1 / 2, 0], [1 / 2, 0, 1, 0], [1 / 4, Math.sqrt(3) / 4, 3 / 4, Math.sqrt(3) / 4]]
-        },
-        cantorDust: {
-          name: 'カントールの塵集合',
-          generator: [[0, 0, 1 / 3, 0], [2 / 3, 0, 1, 0], [0, 2 / 3, 1 / 3, 2 / 3], [2 / 3, 2 / 3, 1, 2 / 3]]
-        },
-        minkowskiSausage: {
-          name: 'ミンコフスキーのソーセージ',
-          generator: [[0, 0, 1 / 4, 0], [1 / 4, 0, 1 / 4, 1 / 4], [1 / 4, 1 / 4, 1 / 2, 1 / 4], [1 / 2, 1 / 4, 1 / 2, 0], [1 / 2, 0, 1 / 2, -1 / 4], [1 / 2, -1 / 4, 3 / 4, -1 / 4], [3 / 4, -1 / 4, 3 / 4, 0], [3 / 4, 0, 1, 0]]
-        }
-      };
-
-      Object.keys(presetLi).forEach(function (key) {
-        var preset = presetLi[key];
+      Object.keys(_presetList2.default).forEach(function (key) {
+        var preset = _presetList2.default[key];
 
         $presetList.append('<li class="mdl-menu__item" data-value="' + key + '">' + preset.name + '</li>');
       });
@@ -1141,7 +1153,7 @@ var Index = function () {
 
 exports.default = Index;
 
-},{"../module/Generator":1,"../module/Grid":2,"../module/Line":3,"../module/Point":5,"../module/ns":7,"../module/util":8}],11:[function(require,module,exports){
+},{"../module/Generator":1,"../module/Grid":2,"../module/Line":3,"../module/Point":5,"../module/ns":7,"../module/preset-list":8,"../module/util":9}],12:[function(require,module,exports){
 'use strict';
 
 var _ns = require('./module/ns');
@@ -1158,4 +1170,4 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 _ns2.default.main = new _Main2.default();
 
-},{"./module/Main":4,"./module/ns":7}]},{},[11]);
+},{"./module/Main":4,"./module/ns":7}]},{},[12]);

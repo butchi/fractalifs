@@ -3,6 +3,7 @@ import Point from '../module/Point';
 import Line from '../module/Line';
 import Grid from '../module/Grid';
 import Generator from '../module/Generator';
+import presetLi from '../module/preset-list';
 import {plus, sub, mult, px, unit} from '../module/util';
 
 const MAX_POINTS = 10000;
@@ -162,79 +163,6 @@ export default class Index {
         });
       });
     });
-
-    let presetLi = {
-      ccurve: {
-        name: 'C曲線',
-        generator: [
-          [0,   0,   1/2, 1/2],
-          [1/2, 1/2, 1,   0]
-        ],
-      },
-      dragon: {
-        name: 'ドラゴン曲線',
-        generator: [
-          [0, 0, 1/2, 1/2],
-          [1, 0, 1/2, 1/2]
-        ],
-      },
-      koch: {
-        name: 'コッホ曲線',
-        generator: [
-          [0, 0, 1/3, 0],
-          [1/3, 0, 1/2, Math.sqrt(3)/6],
-          [1/2, Math.sqrt(3)/6, 2/3, 0],
-          [2/3, 0, 1, 0]
-        ],
-      },
-      sierpinskiCarpet: {
-        name: 'シェルピンスキーのカーペット',
-        generator: [
-          [0,   0, 1/3, 0],
-          [1/3, 0, 2/3, 0],
-          [2/3, 0, 1,   0],
-
-          [0,   1/3, 1/3, 1/3],
-          [2/3, 1/3, 1,   1/3],
-
-          [0,   2/3, 1/3, 2/3],
-          [1/3, 2/3, 2/3, 2/3],
-          [2/3, 2/3, 1,   2/3],
-        ],
-      },
-      sierpinskiGasket: {
-        name: 'シェルピンスキーのギャスケット',
-        generator: [
-          [0,   0, 1/2, 0],
-          [1/2, 0, 1,   0],
-          [1/4, Math.sqrt(3) / 4, 3/4, Math.sqrt(3) / 4, ]
-        ],
-      },
-      cantorDust: {
-        name: 'カントールの塵集合',
-        generator: [
-          [0,   0, 1/3, 0],
-          [2/3, 0, 1,   0],
-
-          [0,   2/3, 1/3, 2/3],
-          [2/3, 2/3, 1,   2/3],
-        ],
-      },
-      minkowskiSausage: {
-        name: 'ミンコフスキーのソーセージ',
-        generator: [
-          [0,   0,    1/4, 0],
-          [1/4, 0,    1/4, 1/4],
-          [1/4, 1/4,  1/2, 1/4],
-          [1/2, 1/4,  1/2, 0],
-
-          [1/2, 0,    1/2, -1/4],
-          [1/2, -1/4, 3/4, -1/4],
-          [3/4, -1/4, 3/4, 0],
-          [3/4, 0,    1,   0],
-        ],
-      }
-    };
 
     Object.keys(presetLi).forEach((key) => {
       let preset = presetLi[key];
