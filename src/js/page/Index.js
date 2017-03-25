@@ -38,28 +38,14 @@ export default class Index {
 
       this.plot(iterationLq);
 
+      ns.grid.setSize();
+
       ns.gArr.forEach((elm) => {
         elm.replace();
       });
     });
 
     this.setSize();
-
-    ns.cornerPx = [
-      new Point({
-        x: 0,
-        y: 0,
-      }),
-      new Point({
-        x: ns.width,
-        y: ns.height,
-      }),
-    ];
-
-    ns.cornerUnit = [
-      unit(ns.cornerPx[0]),
-      unit(ns.cornerPx[1])
-    ];
 
     this.$container.append(ns.ctrlField);
 
@@ -181,6 +167,22 @@ export default class Index {
     $(ns.ctrlField).attr('width', ns.width);
     $(ns.ctrlField).attr('height', ns.height);
     $(ns.ctrlField).attr('viewBox', `0 0 256 256`);
+
+    ns.cornerPx = [
+      new Point({
+        x: 0,
+        y: 0,
+      }),
+      new Point({
+        x: ns.width,
+        y: ns.height,
+      }),
+    ];
+
+    ns.cornerUnit = [
+      unit(ns.cornerPx[0]),
+      unit(ns.cornerPx[1])
+    ];
   }
 
   plot(iteration = 0) {

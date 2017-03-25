@@ -16,6 +16,10 @@ export default class Grid {
 
     this.interval = opts.interval || 1;
 
+    this.setSize();
+  }
+
+  setSize() {
     this.minX = Math.floor(ns.cornerUnit[0].x);
     this.minY = - Math.ceil(ns.cornerUnit[0].y);
     this.maxX = Math.ceil(ns.cornerUnit[1].x);

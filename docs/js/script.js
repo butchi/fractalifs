@@ -349,6 +349,11 @@ var Grid = function () {
 
       this.interval = opts.interval || 1;
 
+      this.setSize();
+    }
+  }, {
+    key: 'setSize',
+    value: function setSize() {
       this.minX = Math.floor(_ns2.default.cornerUnit[0].x);
       this.minY = -Math.ceil(_ns2.default.cornerUnit[0].y);
       this.maxX = Math.ceil(_ns2.default.cornerUnit[1].x);
@@ -935,22 +940,14 @@ var Index = function () {
 
         _this.plot(iterationLq);
 
+        _ns2.default.grid.setSize();
+
         _ns2.default.gArr.forEach(function (elm) {
           elm.replace();
         });
       });
 
       this.setSize();
-
-      _ns2.default.cornerPx = [new _Point2.default({
-        x: 0,
-        y: 0
-      }), new _Point2.default({
-        x: _ns2.default.width,
-        y: _ns2.default.height
-      })];
-
-      _ns2.default.cornerUnit = [(0, _util.unit)(_ns2.default.cornerPx[0]), (0, _util.unit)(_ns2.default.cornerPx[1])];
 
       this.$container.append(_ns2.default.ctrlField);
 
@@ -1077,6 +1074,16 @@ var Index = function () {
       $(_ns2.default.ctrlField).attr('width', _ns2.default.width);
       $(_ns2.default.ctrlField).attr('height', _ns2.default.height);
       $(_ns2.default.ctrlField).attr('viewBox', '0 0 256 256');
+
+      _ns2.default.cornerPx = [new _Point2.default({
+        x: 0,
+        y: 0
+      }), new _Point2.default({
+        x: _ns2.default.width,
+        y: _ns2.default.height
+      })];
+
+      _ns2.default.cornerUnit = [(0, _util.unit)(_ns2.default.cornerPx[0]), (0, _util.unit)(_ns2.default.cornerPx[1])];
     }
   }, {
     key: 'plot',
