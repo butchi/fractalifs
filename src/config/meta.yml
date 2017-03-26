@@ -1,6 +1,7 @@
-site_name: web starter
-description: web-starter web page.
-keywords: []
-# url: http://example.com/
+site_name: ifs-js
+description: IFSからフラクタルを生成するWebアプリケーションです。
+keywords: ['フラクタル', 'IFS', '反復関数系', '数学']
+url: http://butchi.github.io/ifs-js/
 # facebook_app_id": 
-# ogp_image_url: http://example.com/ogp.png
+ogp_image_url: http://butchi.github.io/ifs-js/ogp.png
+favicon_url: /ifs-js/favicon.ico
