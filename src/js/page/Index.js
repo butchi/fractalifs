@@ -68,12 +68,30 @@ export default class Index {
     ns.gArr = [];
 
     $('.btn-add-generator').on('click', (_evt) => {
-      ns.currentGenerator = new Generator();
+      console.log('add mode');
 
-      ns.gArr.push(ns.currentGenerator);
+      this.$container.off('mousedown');
+      this.$container.one('mousedown', (evt) => {
+        ns.currentGenerator = new Generator();
+
+        ns.gArr.push(ns.currentGenerator);
+
+        ns.currentGenerator.touchDownHandler(evt);
+      });
+
+      ns.gArr.forEach((g) => {
+        g.offEdit();
+      });
     });
 
     $('.btn-edit').on('click', (_evt) => {
+      console.log('edit mode');
+
+      this.$container.off('mousedown');
+
+      ns.gArr.forEach((g) => {
+        g.eventifyEdit();
+      });
     });
 
     this.$container.on('set-line', () => {

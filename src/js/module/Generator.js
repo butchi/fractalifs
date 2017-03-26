@@ -38,10 +38,6 @@ export default class Generator {
         y: 0,
       }),
     });
-
-    this.$container.one('mousedown', (evt) => {
-      this.touchDownHandler(evt);
-    });
   }
 
   replace() {
@@ -78,30 +74,6 @@ export default class Generator {
 
     this.$container.one('mouseup', (evt) => {
       this.touchUpHandler(evt);
-    });
-
-    $(this.startPt).on('mousedown', (evt) => {
-      $(this.startPt).on('mouseup', (evt) => {
-        this.$container.off('mousemove');
-
-        this.$container.trigger('replot-fractal', 12);
-      });
-
-      this.$container.on('mousemove', (evt) => {
-        this.startMoveHandler(evt);
-      });
-    });
-
-    $(this.endPt).on('mousedown', (evt) => {
-      this.$container.on('mouseup', (evt) => {
-        this.$container.off('mousemove');
-
-        this.$container.trigger('replot-fractal', 12);
-      });
-
-      this.$container.on('mousemove', (evt) => {
-        this.endMoveHandler(evt);
-      });
     });
   }
 
@@ -262,5 +234,38 @@ export default class Generator {
   setEndLine(p) {
     this.lineElm.setAttribute('x2', p.x);
     this.lineElm.setAttribute('y2', p.y);
+  }
+
+  offEdit() {
+    $(this.startPt).off('mousedown');
+    $(this.endPt).off('mousedown');
+  }
+
+  eventifyEdit() {
+    this.offEdit();
+
+    $(this.startPt).on('mousedown', (evt) => {
+      $(this.startPt).on('mouseup', (evt) => {
+        this.$container.off('mousemove');
+
+        this.$container.trigger('replot-fractal', 12);
+      });
+
+      this.$container.on('mousemove', (evt) => {
+        this.startMoveHandler(evt);
+      });
+    });
+
+    $(this.endPt).on('mousedown', (evt) => {
+      this.$container.on('mouseup', (evt) => {
+        this.$container.off('mousemove');
+
+        this.$container.trigger('replot-fractal', 12);
+      });
+
+      this.$container.on('mousemove', (evt) => {
+        this.endMoveHandler(evt);
+      });
+    });
   }
 }

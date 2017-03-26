@@ -37,8 +37,6 @@ var Generator = function () {
   _createClass(Generator, [{
     key: 'initialize',
     value: function initialize() {
-      var _this = this;
-
       var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
       this.arrow = document.createElementNS('http://www.w3.org/2000/svg', 'g');
@@ -70,10 +68,6 @@ var Generator = function () {
           y: 0
         })
       });
-
-      this.$container.one('mousedown', function (evt) {
-        _this.touchDownHandler(evt);
-      });
     }
   }, {
     key: 'replace',
@@ -91,7 +85,7 @@ var Generator = function () {
   }, {
     key: 'touchDownHandler',
     value: function touchDownHandler(evt) {
-      var _this2 = this;
+      var _this = this;
 
       var x = evt.pageX;
       var y = evt.pageY;
@@ -109,35 +103,11 @@ var Generator = function () {
       this.setStartPt(pointUnit);
 
       this.$container.on('mousemove', function (evt) {
-        _this2.touchMoveHandler(evt);
+        _this.touchMoveHandler(evt);
       });
 
       this.$container.one('mouseup', function (evt) {
-        _this2.touchUpHandler(evt);
-      });
-
-      $(this.startPt).on('mousedown', function (evt) {
-        $(_this2.startPt).on('mouseup', function (evt) {
-          _this2.$container.off('mousemove');
-
-          _this2.$container.trigger('replot-fractal', 12);
-        });
-
-        _this2.$container.on('mousemove', function (evt) {
-          _this2.startMoveHandler(evt);
-        });
-      });
-
-      $(this.endPt).on('mousedown', function (evt) {
-        _this2.$container.on('mouseup', function (evt) {
-          _this2.$container.off('mousemove');
-
-          _this2.$container.trigger('replot-fractal', 12);
-        });
-
-        _this2.$container.on('mousemove', function (evt) {
-          _this2.endMoveHandler(evt);
-        });
+        _this.touchUpHandler(evt);
       });
     }
   }, {
@@ -308,6 +278,43 @@ var Generator = function () {
     value: function setEndLine(p) {
       this.lineElm.setAttribute('x2', p.x);
       this.lineElm.setAttribute('y2', p.y);
+    }
+  }, {
+    key: 'offEdit',
+    value: function offEdit() {
+      $(this.startPt).off('mousedown');
+      $(this.endPt).off('mousedown');
+    }
+  }, {
+    key: 'eventifyEdit',
+    value: function eventifyEdit() {
+      var _this2 = this;
+
+      this.offEdit();
+
+      $(this.startPt).on('mousedown', function (evt) {
+        $(_this2.startPt).on('mouseup', function (evt) {
+          _this2.$container.off('mousemove');
+
+          _this2.$container.trigger('replot-fractal', 12);
+        });
+
+        _this2.$container.on('mousemove', function (evt) {
+          _this2.startMoveHandler(evt);
+        });
+      });
+
+      $(this.endPt).on('mousedown', function (evt) {
+        _this2.$container.on('mouseup', function (evt) {
+          _this2.$container.off('mousemove');
+
+          _this2.$container.trigger('replot-fractal', 12);
+        });
+
+        _this2.$container.on('mousemove', function (evt) {
+          _this2.endMoveHandler(evt);
+        });
+      });
     }
   }]);
 
@@ -983,12 +990,31 @@ var Index = function () {
       _ns2.default.gArr = [];
 
       $('.btn-add-generator').on('click', function (_evt) {
-        _ns2.default.currentGenerator = new _Generator2.default();
+        console.log('add mode');
 
-        _ns2.default.gArr.push(_ns2.default.currentGenerator);
+        _this.$container.off('mousedown');
+        _this.$container.one('mousedown', function (evt) {
+          _ns2.default.currentGenerator = new _Generator2.default();
+
+          _ns2.default.gArr.push(_ns2.default.currentGenerator);
+
+          _ns2.default.currentGenerator.touchDownHandler(evt);
+        });
+
+        _ns2.default.gArr.forEach(function (g) {
+          g.offEdit();
+        });
       });
 
-      $('.btn-edit').on('click', function (_evt) {});
+      $('.btn-edit').on('click', function (_evt) {
+        console.log('edit mode');
+
+        _this.$container.off('mousedown');
+
+        _ns2.default.gArr.forEach(function (g) {
+          g.eventifyEdit();
+        });
+      });
 
       this.$container.on('set-line', function () {
         _this.plot(iterationHq);
