@@ -1,7 +1,7 @@
 {
-  "name": "butchi-web-starter-kit",
+  "name": "ifs-js",
   "version": "0.0.0",
-  "description": "description",
+  "description": "IFS fractal with JavaScript.",
   "main": "gulpfile.babel.js",
   "engines": {
     "node": ">=6.9.1"
@@ -16,7 +16,7 @@
     "build-html": "gulp html"
   },
   "keywords": [
-    "starterkit"
+    "fractal"
   ],
   "author": "IWABUCHI Yuuki",
   "license": "MIT",

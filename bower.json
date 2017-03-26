@@ -1,14 +1,14 @@
 {
-  "name": "butchi-web-starter-kit",
+  "name": "ifs-js",
   "version": "0.0.0",
-  "description": "description",
+  "description": "IFS fractal with JavaScript.",
   "main": "docs/js/script.js",
   "authors": [
     "IWABUCHI Yuuki"
   ],
   "license": "MIT",
   "keywords": [
-    "starterkit"
+    "fractal"
   ],
   "moduleType": [],
   "homepage": "http://butchi.jp/",
