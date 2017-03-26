@@ -1003,8 +1003,11 @@ var Index = function () {
       $('.btn-add-generator').on('click', function (_evt) {
         console.log('add mode');
 
+        $('.btn-edit').attr('disabled', false);
+        $('.btn-add-generator').attr('disabled', true);
+
         _this.$container.off('mousedown');
-        _this.$container.one('mousedown', function (evt) {
+        _this.$container.on('mousedown', function (evt) {
           _ns2.default.currentGenerator = new _Generator2.default();
 
           _ns2.default.gArr.push(_ns2.default.currentGenerator);
@@ -1019,6 +1022,9 @@ var Index = function () {
 
       $('.btn-edit').on('click', function (_evt) {
         console.log('edit mode');
+
+        $('.btn-add-generator').attr('disabled', false);
+        $('.btn-edit').attr('disabled', true);
 
         _this.$container.off('mousedown');
 

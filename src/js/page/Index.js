@@ -70,8 +70,11 @@ export default class Index {
     $('.btn-add-generator').on('click', (_evt) => {
       console.log('add mode');
 
+      $('.btn-edit').attr('disabled', false);
+      $('.btn-add-generator').attr('disabled', true);
+
       this.$container.off('mousedown');
-      this.$container.one('mousedown', (evt) => {
+      this.$container.on('mousedown', (evt) => {
         ns.currentGenerator = new Generator();
 
         ns.gArr.push(ns.currentGenerator);
@@ -86,6 +89,9 @@ export default class Index {
 
     $('.btn-edit').on('click', (_evt) => {
       console.log('edit mode');
+
+      $('.btn-add-generator').attr('disabled', false);
+      $('.btn-edit').attr('disabled', true);
 
       this.$container.off('mousedown');
 
