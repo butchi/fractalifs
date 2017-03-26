@@ -84,8 +84,8 @@ var Generator = function () {
       this.setStartLine(startPx);
       this.setEndLine(endPx);
 
-      this.setStartPt(startPx);
-      this.setEndPt(endPx);
+      this.setStartPtAttr(startPx);
+      this.setEndPtAttr(endPx);
       this.setArrowHead();
     }
   }, {
@@ -104,23 +104,9 @@ var Generator = function () {
           x: pointUnit.x,
           y: pointUnit.y
         }));
-        pointPx = (0, _util.px)(pointUnit);
       }
 
-      this.line.start = pointUnit;
-
-      this.setStartLine(pointPx);
-      this.setEndLine(pointPx);
-
-      this.arrow.append(this.lineElm);
-
-      this.setStartPt(pointPx);
-      this.setEndPt(pointPx);
-      this.setArrowHead();
-
-      this.arrowHeadElm.setAttribute('visibility', 'hidden');
-      this.arrow.append(this.arrowHeadElm);
-      this.arrow.append(this.startPt);
+      this.setStartPt(pointUnit);
 
       this.$container.on('mousemove', function (evt) {
         _this2.touchMoveHandler(evt);
@@ -195,17 +181,7 @@ var Generator = function () {
 
       this.$container.off('mousemove');
 
-      this.line.end.x = pointUnit.x;
-      this.line.end.y = pointUnit.y;
-
-      this.setEndLine(pointPx);
-      this.setEndPt(pointPx);
-
-      this.setArrowHead();
-
-      this.arrowHeadElm.setAttribute('visibility', 'visible');
-
-      this.arrow.append(this.endPt);
+      this.setEndPt(pointUnit);
 
       this.$container.trigger('set-line');
     }
@@ -230,7 +206,7 @@ var Generator = function () {
 
       this.setStartLine(pointPx);
 
-      this.setStartPt(pointPx);
+      this.setStartPtAttr(pointPx);
 
       this.setArrowHead();
 
@@ -257,7 +233,7 @@ var Generator = function () {
 
       this.setEndLine(pointPx);
 
-      this.setEndPt(pointPx);
+      this.setEndPtAttr(pointPx);
 
       this.setArrowHead();
 
@@ -265,13 +241,50 @@ var Generator = function () {
     }
   }, {
     key: 'setStartPt',
-    value: function setStartPt(p) {
+    value: function setStartPt(pointUnit) {
+      var pointPx = (0, _util.px)(pointUnit);
+
+      this.line.start = pointUnit;
+
+      this.setStartLine(pointPx);
+      this.setEndLine(pointPx);
+
+      this.arrow.append(this.lineElm);
+
+      this.setStartPtAttr(pointPx);
+      this.setEndPtAttr(pointPx);
+      this.setArrowHead();
+
+      this.arrowHeadElm.setAttribute('visibility', 'hidden');
+      this.arrow.append(this.arrowHeadElm);
+      this.arrow.append(this.startPt);
+    }
+  }, {
+    key: 'setEndPt',
+    value: function setEndPt(pointUnit) {
+      var pointPx = (0, _util.px)(pointUnit);
+
+      this.line.end.x = pointUnit.x;
+      this.line.end.y = pointUnit.y;
+
+      this.setEndLine(pointPx);
+      this.setEndPtAttr(pointPx);
+
+      this.setArrowHead();
+
+      this.arrowHeadElm.setAttribute('visibility', 'visible');
+
+      this.arrow.append(this.endPt);
+    }
+  }, {
+    key: 'setStartPtAttr',
+    value: function setStartPtAttr(p) {
       this.startPt.setAttribute('cx', p.x);
       this.startPt.setAttribute('cy', p.y);
     }
   }, {
-    key: 'setEndPt',
-    value: function setEndPt(p) {
+    key: 'setEndPtAttr',
+    value: function setEndPtAttr(p) {
       this.endPt.setAttribute('cx', p.x);
       this.endPt.setAttribute('cy', p.y);
     }
@@ -975,6 +988,8 @@ var Index = function () {
         _ns2.default.gArr.push(_ns2.default.currentGenerator);
       });
 
+      $('.btn-edit').on('click', function (_evt) {});
+
       this.$container.on('set-line', function () {
         _this.plot(iterationHq);
       });
@@ -1037,23 +1052,11 @@ var Index = function () {
         _ns2.default.gArr = getGenerator(_presetList2.default[key].generator);
 
         _ns2.default.gArr.forEach(function (g) {
-          var startPx = (0, _util.px)(g.line.start);
-          var endPx = (0, _util.px)(g.line.end);
-
-          g.touchDownHandler({
-            pageX: startPx.x,
-            pageY: startPx.y
-          });
-
-          _this.$container.off('mousedown');
-          _this.$container.off('mousemove');
-          _this.$container.off('mouseup');
-
-          g.touchUpHandler({
-            pageX: endPx.x,
-            pageY: endPx.y
-          });
+          g.setStartPt(g.line.start);
+          g.setEndPt(g.line.end);
         });
+
+        _this.plot(iterationHq);
       });
 
       Object.keys(_presetList2.default).forEach(function (key) {

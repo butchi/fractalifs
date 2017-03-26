@@ -73,6 +73,9 @@ export default class Index {
       ns.gArr.push(ns.currentGenerator);
     });
 
+    $('.btn-edit').on('click', (_evt) => {
+    });
+
     this.$container.on('set-line', () => {
       this.plot(iterationHq);
     });
@@ -131,23 +134,11 @@ export default class Index {
       ns.gArr = getGenerator(presetLi[key].generator);
 
       ns.gArr.forEach((g) => {
-        let startPx = px(g.line.start);
-        let endPx = px(g.line.end);
-
-        g.touchDownHandler({
-          pageX: startPx.x,
-          pageY: startPx.y,
-        });
-
-        this.$container.off('mousedown');
-        this.$container.off('mousemove');
-        this.$container.off('mouseup');
-
-        g.touchUpHandler({
-          pageX: endPx.x,
-          pageY: endPx.y,
-        });
+        g.setStartPt(g.line.start);
+        g.setEndPt(g.line.end);
       });
+
+      this.plot(iterationHq);
     });
 
     Object.keys(presetLi).forEach((key) => {

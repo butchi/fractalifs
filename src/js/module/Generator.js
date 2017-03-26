@@ -51,8 +51,8 @@ export default class Generator {
     this.setStartLine(startPx);
     this.setEndLine(endPx);
 
-    this.setStartPt(startPx);
-    this.setEndPt(endPx);
+    this.setStartPtAttr(startPx);
+    this.setEndPtAttr(endPx);
     this.setArrowHead();
   }
 
@@ -68,23 +68,9 @@ export default class Generator {
         x: pointUnit.x,
         y: pointUnit.y,
       }));
-      pointPx = px(pointUnit);
     }
 
-    this.line.start = pointUnit;
-
-    this.setStartLine(pointPx);
-    this.setEndLine(pointPx);
-
-    this.arrow.append(this.lineElm);
-
-    this.setStartPt(pointPx);
-    this.setEndPt(pointPx);
-    this.setArrowHead();
-
-    this.arrowHeadElm.setAttribute('visibility', 'hidden');
-    this.arrow.append(this.arrowHeadElm);
-    this.arrow.append(this.startPt);
+    this.setStartPt(pointUnit);
 
     this.$container.on('mousemove', (evt) => {
       this.touchMoveHandler(evt);
@@ -157,17 +143,7 @@ export default class Generator {
 
     this.$container.off('mousemove');
 
-    this.line.end.x = pointUnit.x;
-    this.line.end.y = pointUnit.y;
-
-    this.setEndLine(pointPx);
-    this.setEndPt(pointPx);
-
-    this.setArrowHead();
-
-    this.arrowHeadElm.setAttribute('visibility', 'visible');
-
-    this.arrow.append(this.endPt);
+    this.setEndPt(pointUnit);
 
     this.$container.trigger('set-line');
   }
@@ -191,7 +167,7 @@ export default class Generator {
 
     this.setStartLine(pointPx);
 
-    this.setStartPt(pointPx);
+    this.setStartPtAttr(pointPx);
 
     this.setArrowHead();
 
@@ -217,19 +193,55 @@ export default class Generator {
 
     this.setEndLine(pointPx);
 
-    this.setEndPt(pointPx);
+    this.setEndPtAttr(pointPx);
 
     this.setArrowHead();
 
     this.$container.trigger('replot-fractal', 8);
   }
 
-  setStartPt(p) {
+  setStartPt(pointUnit) {
+    let pointPx = px(pointUnit);
+
+    this.line.start = pointUnit;
+
+    this.setStartLine(pointPx);
+    this.setEndLine(pointPx);
+
+    this.arrow.append(this.lineElm);
+
+    this.setStartPtAttr(pointPx);
+    this.setEndPtAttr(pointPx);
+    this.setArrowHead();
+
+    this.arrowHeadElm.setAttribute('visibility', 'hidden');
+    this.arrow.append(this.arrowHeadElm);
+    this.arrow.append(this.startPt);
+  }
+
+  setEndPt(pointUnit) {
+    let pointPx = px(pointUnit);
+
+    this.line.end.x = pointUnit.x;
+    this.line.end.y = pointUnit.y;
+
+    this.setEndLine(pointPx);
+    this.setEndPtAttr(pointPx);
+
+    this.setArrowHead();
+
+    this.arrowHeadElm.setAttribute('visibility', 'visible');
+
+    this.arrow.append(this.endPt);
+
+  }
+
+  setStartPtAttr(p) {
     this.startPt.setAttribute('cx', p.x);
     this.startPt.setAttribute('cy', p.y);
   }
 
-  setEndPt(p) {
+  setEndPtAttr(p) {
     this.endPt.setAttribute('cx', p.x);
     this.endPt.setAttribute('cy', p.y);
   }
