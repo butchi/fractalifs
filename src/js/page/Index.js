@@ -72,6 +72,7 @@ export default class Index {
 
       $('.btn-edit').attr('disabled', false);
       $('.btn-add-generator').attr('disabled', true);
+      $('.mdl-tooltip').removeClass('is-active');
 
       this.$container.off('mousedown');
       this.$container.on('mousedown', (evt) => {
@@ -92,6 +93,7 @@ export default class Index {
 
       $('.btn-add-generator').attr('disabled', false);
       $('.btn-edit').attr('disabled', true);
+      $('.mdl-tooltip').removeClass('is-active');
 
       this.$container.off('mousedown');
 

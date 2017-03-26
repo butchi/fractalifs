@@ -1005,6 +1005,7 @@ var Index = function () {
 
         $('.btn-edit').attr('disabled', false);
         $('.btn-add-generator').attr('disabled', true);
+        $('.mdl-tooltip').removeClass('is-active');
 
         _this.$container.off('mousedown');
         _this.$container.on('mousedown', function (evt) {
@@ -1025,6 +1026,7 @@ var Index = function () {
 
         $('.btn-add-generator').attr('disabled', false);
         $('.btn-edit').attr('disabled', true);
+        $('.mdl-tooltip').removeClass('is-active');
 
         _this.$container.off('mousedown');
 
