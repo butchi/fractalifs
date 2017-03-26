@@ -68,7 +68,7 @@ const presetLi = {
       [3/4, -1/4, 3/4, 0],
       [3/4, 0,    1,   0],
     ],
-  }
-}
+  },
+};
 
 export default presetLi;
