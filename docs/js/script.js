@@ -301,8 +301,6 @@ var Generator = function () {
       this.startPt.setAttribute('visibility', 'visible');
       this.endPt.setAttribute('visibility', 'visible');
 
-      console.log(this.startPt);
-
       $(this.startPt).on('mousedown', function (evt) {
         $(_this2.startPt).on('mouseup', function (evt) {
           _this2.$container.off('mousemove');
@@ -1109,6 +1107,8 @@ var Index = function () {
 
         $presetList.append('<li class="mdl-menu__item" data-value="' + key + '">' + preset.name + '</li>');
       });
+
+      $('.btn-add-generator').click();
     }
   }, {
     key: 'setSize',

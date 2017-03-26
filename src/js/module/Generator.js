@@ -253,8 +253,6 @@ export default class Generator {
     this.startPt.setAttribute('visibility', 'visible');
     this.endPt.setAttribute('visibility', 'visible');
 
-    console.log(this.startPt);
-
     $(this.startPt).on('mousedown', (evt) => {
       $(this.startPt).on('mouseup', (evt) => {
         this.$container.off('mousemove');

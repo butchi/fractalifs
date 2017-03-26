@@ -172,6 +172,8 @@ export default class Index {
 
       $presetList.append(`<li class="mdl-menu__item" data-value="${key}">${preset.name}</li>`);
     });
+
+    $('.btn-add-generator').click();
   }
 
   setSize() {
