@@ -142,11 +142,15 @@ body.page-index {
       stroke: #000;
       stroke-width: 2; }
     body.page-index .ctrl-field .start-pt {
-      r: 5; }
+      r: 5;
+      stroke: black;
+      stroke-width: 2;
+      fill: white; }
     body.page-index .ctrl-field .end-pt {
-      r: 10;
-      opacity: 0;
-      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; }
+      r: 5;
+      stroke: black;
+      stroke-width: 2;
+      fill: white; }
   body.page-index .panel {
     position: absolute;
     left: 10px;

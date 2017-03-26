@@ -53,11 +53,16 @@ body.page-index {
 
     .start-pt {
       r: 5;
+      stroke: black;
+      stroke-width: 2;
+      fill: white;
     }
 
     .end-pt {
-      r: 10;
-      opacity: 0;
+      r: 5;
+      stroke: black;
+      stroke-width: 2;
+      fill: white;
     }
   }
 

@@ -54,6 +54,9 @@ var Generator = function () {
       this.startPt.setAttribute('class', 'start-pt');
       this.endPt.setAttribute('class', 'end-pt');
 
+      this.startPt.setAttribute('visibility', 'hidden');
+      this.endPt.setAttribute('visibility', 'hidden');
+
       this.$container = $('.container');
 
       _ns2.default.ctrlField.append(this.arrow);
@@ -284,6 +287,9 @@ var Generator = function () {
     value: function offEdit() {
       $(this.startPt).off('mousedown');
       $(this.endPt).off('mousedown');
+
+      this.startPt.setAttribute('visibility', 'hidden');
+      this.endPt.setAttribute('visibility', 'hidden');
     }
   }, {
     key: 'eventifyEdit',
@@ -291,6 +297,11 @@ var Generator = function () {
       var _this2 = this;
 
       this.offEdit();
+
+      this.startPt.setAttribute('visibility', 'visible');
+      this.endPt.setAttribute('visibility', 'visible');
+
+      console.log(this.startPt);
 
       $(this.startPt).on('mousedown', function (evt) {
         $(_this2.startPt).on('mouseup', function (evt) {

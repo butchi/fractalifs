@@ -24,6 +24,9 @@ export default class Generator {
     this.startPt.setAttribute('class', 'start-pt');
     this.endPt.setAttribute('class', 'end-pt');
 
+    this.startPt.setAttribute('visibility', 'hidden');
+    this.endPt.setAttribute('visibility', 'hidden');
+
     this.$container = $('.container');
 
     ns.ctrlField.append(this.arrow);
@@ -239,10 +242,18 @@ export default class Generator {
   offEdit() {
     $(this.startPt).off('mousedown');
     $(this.endPt).off('mousedown');
+
+    this.startPt.setAttribute('visibility', 'hidden');
+    this.endPt.setAttribute('visibility', 'hidden');
   }
 
   eventifyEdit() {
     this.offEdit();
+
+    this.startPt.setAttribute('visibility', 'visible');
+    this.endPt.setAttribute('visibility', 'visible');
+
+    console.log(this.startPt);
 
     $(this.startPt).on('mousedown', (evt) => {
       $(this.startPt).on('mouseup', (evt) => {
