@@ -164,6 +164,16 @@ export default class Index {
         g.setEndPt(g.line.end);
       });
 
+      let isEdit = !!$('.btn-edit').attr('disabled');
+
+      if(isEdit) {
+        this.$container.off('mousedown');
+
+        ns.gArr.forEach((g) => {
+          g.eventifyEdit();
+        });
+      }
+
       this.plot(iterationHq);
     });
 

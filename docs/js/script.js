@@ -1099,6 +1099,16 @@ var Index = function () {
           g.setEndPt(g.line.end);
         });
 
+        var isEdit = !!$('.btn-edit').attr('disabled');
+
+        if (isEdit) {
+          _this.$container.off('mousedown');
+
+          _ns2.default.gArr.forEach(function (g) {
+            g.eventifyEdit();
+          });
+        }
+
         _this.plot(iterationHq);
       });
 
