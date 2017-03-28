@@ -143,12 +143,14 @@ body.page-index {
       r: 5;
       stroke: black;
       stroke-width: 2;
-      fill: white; }
+      fill: white;
+      cursor: pointer; }
     body.page-index .ctrl-field .end-pt {
       r: 5;
       stroke: black;
       stroke-width: 2;
-      fill: white; }
+      fill: white;
+      cursor: pointer; }
   body.page-index .panel {
     position: absolute;
     left: 10px;
