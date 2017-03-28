@@ -130,9 +130,9 @@ body.page-index {
     line-height: 35px;
     font-size: 30px;
     text-align: left;
-    font-family: Roboto;
-    font-weight: bold;
-    color: #999;
+    font-family: Roboto, sans-serif;
+    font-weight: 900;
+    color: #666;
     z-index: 1; }
   body.page-index .container {
     position: absolute;
