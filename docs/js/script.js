@@ -731,8 +731,8 @@ Object.defineProperty(exports, "__esModule", {
  * ネームスペース以下の変数にアクセスしたいときは各クラスでこれをimportする
  */
 
-window.App = window.App || {};
-var ns = window.App;
+window.licker = window.licker || {};
+var ns = window.licker;
 exports.default = ns;
 
 },{}],8:[function(require,module,exports){
