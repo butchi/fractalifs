@@ -1,4 +1,4 @@
-site_name: ifs-js
+site_name: fractalifs
 description: IFSからフラクタルを生成するWebアプリケーションです。
 keywords: ['フラクタル', 'IFS', '反復関数系', '数学']
 url: http://butchi.github.io/ifs-js/

@@ -21,6 +21,29 @@ body.page-index {
     top: 0;
   }
 
+  .title {
+    position: absolute;
+
+    left: 15px;
+    bottom: 10px;
+
+    width: 180px;
+    height: 35px;
+
+    line-height: 35px;
+
+    font-size: 30px;
+
+    text-align: left;
+
+    font-family: Roboto;
+    font-weight: bold;
+
+    color: #999;
+
+    z-index: 1;
+  }
+
   .container {
     position: absolute;
 
