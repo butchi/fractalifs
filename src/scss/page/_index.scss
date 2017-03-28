@@ -82,4 +82,23 @@ body.page-index {
       display: block;
     }
   }
+
+  .footer {
+    .list-share {
+      position: absolute;
+
+      right: 10px;
+      bottom: 10px;
+
+      font-size: 0;
+
+      .item {
+        display: inline-block;
+
+        + .item {
+          margin-left: 10px;
+        }
+      }
+    }
+  }
 }

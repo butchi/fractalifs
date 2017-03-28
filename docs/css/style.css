@@ -104,8 +104,6 @@ html.is-sp .wrapper {
 
 html.is-pc .wrapper {
   width: 100%;
-  min-width: 1200px;
-  min-width: 12rem;
   overflow: hidden; }
 
 html {
@@ -160,3 +158,12 @@ body.page-index {
       margin-left: 20px; }
     body.page-index .panel .preset {
       display: block; }
+  body.page-index .footer .list-share {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    font-size: 0; }
+    body.page-index .footer .list-share .item {
+      display: inline-block; }
+      body.page-index .footer .list-share .item + .item {
+        margin-left: 10px; }
