@@ -121,6 +121,19 @@ body.page-index {
     height: 100%;
     left: 0;
     top: 0; }
+  body.page-index .title {
+    position: absolute;
+    left: 15px;
+    bottom: 10px;
+    width: 180px;
+    height: 35px;
+    line-height: 35px;
+    font-size: 30px;
+    text-align: left;
+    font-family: Roboto;
+    font-weight: bold;
+    color: #999;
+    z-index: 1; }
   body.page-index .container {
     position: absolute;
     width: 100%;
