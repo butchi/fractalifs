@@ -3,6 +3,6 @@
  * ネームスペース以下の変数にアクセスしたいときは各クラスでこれをimportする
  */
 
-window.App = window.App || {};
-const ns = window.App;
+window.licker = window.licker || {};
+const ns = window.licker;
 export default ns;
