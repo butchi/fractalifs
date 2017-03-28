@@ -762,6 +762,10 @@ var presetLi = {
     name: 'シェルピンスキーのギャスケット',
     generator: [[0, 0, 1 / 2, 0], [1 / 2, 0, 1, 0], [1 / 4, Math.sqrt(3) / 4, 3 / 4, Math.sqrt(3) / 4]]
   },
+  sierpinskiGasket2: {
+    name: 'シェルピンスキーのギャスケット2',
+    generator: [[1 / 4, Math.sqrt(3) / 4, 0, 0], [1 / 4, Math.sqrt(3) / 4, 3 / 4, Math.sqrt(3) / 4], [1, 0, 3 / 4, Math.sqrt(3) / 4]]
+  },
   cantorDust: {
     name: 'カントールの塵集合',
     generator: [[0, 0, 1 / 3, 0], [2 / 3, 0, 1, 0], [0, 2 / 3, 1 / 3, 2 / 3], [2 / 3, 2 / 3, 1, 2 / 3]]
