@@ -1090,26 +1090,28 @@ var Index = function () {
           return;
         }
 
-        _ns2.default.ctrlField.innerHTML = '';
+        if (_presetList2.default[key]) {
+          _ns2.default.ctrlField.innerHTML = '';
 
-        _ns2.default.gArr = getGenerator(_presetList2.default[key].generator);
-
-        _ns2.default.gArr.forEach(function (g) {
-          g.setStartPt(g.line.start);
-          g.setEndPt(g.line.end);
-        });
-
-        var isEdit = !!$('.btn-edit').attr('disabled');
-
-        if (isEdit) {
-          _this.$container.off('mousedown');
+          _ns2.default.gArr = getGenerator(_presetList2.default[key].generator);
 
           _ns2.default.gArr.forEach(function (g) {
-            g.eventifyEdit();
+            g.setStartPt(g.line.start);
+            g.setEndPt(g.line.end);
           });
-        }
 
-        _this.plot(iterationHq);
+          var isEdit = !!$('.btn-edit').attr('disabled');
+
+          if (isEdit) {
+            _this.$container.off('mousedown');
+
+            _ns2.default.gArr.forEach(function (g) {
+              g.eventifyEdit();
+            });
+          }
+
+          _this.plot(iterationHq);
+        }
       });
 
       Object.keys(_presetList2.default).forEach(function (key) {

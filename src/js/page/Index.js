@@ -155,26 +155,28 @@ export default class Index {
         return;
       }
 
-      ns.ctrlField.innerHTML = '';
+      if(presetLi[key]) {
+        ns.ctrlField.innerHTML = '';
 
-      ns.gArr = getGenerator(presetLi[key].generator);
-
-      ns.gArr.forEach((g) => {
-        g.setStartPt(g.line.start);
-        g.setEndPt(g.line.end);
-      });
-
-      let isEdit = !!$('.btn-edit').attr('disabled');
-
-      if(isEdit) {
-        this.$container.off('mousedown');
+        ns.gArr = getGenerator(presetLi[key].generator);
 
         ns.gArr.forEach((g) => {
-          g.eventifyEdit();
+          g.setStartPt(g.line.start);
+          g.setEndPt(g.line.end);
         });
-      }
 
-      this.plot(iterationHq);
+        let isEdit = !!$('.btn-edit').attr('disabled');
+
+        if(isEdit) {
+          this.$container.off('mousedown');
+
+          ns.gArr.forEach((g) => {
+            g.eventifyEdit();
+          });
+        }
+
+        this.plot(iterationHq);
+      }
     });
 
     Object.keys(presetLi).forEach((key) => {
