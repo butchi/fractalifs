@@ -153,6 +153,27 @@ body.page-index {
     position: absolute;
     left: 10px;
     top: 10px; }
+    body.page-index .panel .toolbar {
+      display: inline-block;
+      font-size: 0;
+      box-shadow: 0 1px 3px #666;
+      border-radius: 2px;
+      overflow: hidden; }
+      body.page-index .panel .toolbar button {
+        border: none;
+        background: none;
+        width: 50px;
+        height: 35px;
+        font-size: 14px;
+        cursor: pointer;
+        background-color: #eee; }
+        body.page-index .panel .toolbar button[disabled] {
+          background-color: #bbb;
+          cursor: default; }
+        body.page-index .panel .toolbar button.under-construction {
+          color: #eee;
+          background-color: #fff !important;
+          cursor: default !important; }
     body.page-index .panel .snap {
       width: auto;
       margin-left: 20px; }

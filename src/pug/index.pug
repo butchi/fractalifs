@@ -14,15 +14,32 @@ block ContentBlock
       svg.ctrl-field(xmlns="http://www.w3.org/2000/svg")
 
     .panel
-      button.btn-add-generator#btn-add-generator
-        i.fa.fa-plus(aria-hidden="true")
-      .mdl-tooltip(data-mdl-for="btn-add-generator")
-        | ジェネレーター追加
+      .toolbar
+        button.btn-add-generator#btn-add-generator
+          i.fa.fa-plus(aria-hidden="true")
+        .mdl-tooltip(data-mdl-for="btn-add-generator")
+          | ジェネレーター追加
 
-      button.btn-edit#btn-edit
-        i.fa.fa-mouse-pointer(aria-hidden="true")
-      .mdl-tooltip(data-mdl-for="btn-edit")
-        | 頂点編集
+        button.btn-edit#btn-edit
+          i.fa.fa-mouse-pointer(aria-hidden="true")
+        .mdl-tooltip(data-mdl-for="btn-edit")
+          | 頂点編集
+
+
+        button.btn-undo.under-construction(disabled)
+          i.fa.fa-arrows(aria-hidden="true")
+
+        button.btn-redo.under-construction(disabled)
+          i.fa.fa-undo(aria-hidden="true")
+
+        button.btn-move.under-construction(disabled)
+          i.fa.fa-repeat(aria-hidden="true")
+
+        button.btn-zoom-out.under-construction(disabled)
+          i.fa.fa-search-minus(aria-hidden="true")
+
+        button.btn-zoom-in.under-construction(disabled)
+          i.fa.fa-search-plus(aria-hidden="true")
 
       label.snap.mdl-checkbox.mdl-js-checkbox.mdl-js-ripple-effect(for="checkbox-snap")
         input.mdl-checkbox__input#checkbox-snap(type="checkbox", data-js-class="snap")

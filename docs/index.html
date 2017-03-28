@@ -29,7 +29,7 @@
     <script src="./js/ua-switch.js"></script>
     <!-- stylesheet-->
     <link rel="stylesheet" href="./css/lib/material.min.css">
-    <link rel="stylesheet" href="css/style.css?v=12">
+    <link rel="stylesheet" href="css/style.css?v=13">
   </head>
   <body class="page-index">
 <div id="fb-root"></div>
@@ -47,10 +47,17 @@
           <svg class="ctrl-field" xmlns="http://www.w3.org/2000/svg"></svg>
         </div>
         <div class="panel">
-          <button class="btn-add-generator" id="btn-add-generator"><i class="fa fa-plus" aria-hidden="true"></i></button>
-          <div class="mdl-tooltip" data-mdl-for="btn-add-generator">ジェネレーター追加</div>
-          <button class="btn-edit" id="btn-edit"><i class="fa fa-mouse-pointer" aria-hidden="true"></i></button>
-          <div class="mdl-tooltip" data-mdl-for="btn-edit">頂点編集</div>
+          <div class="toolbar">
+            <button class="btn-add-generator" id="btn-add-generator"><i class="fa fa-plus" aria-hidden="true"></i></button>
+            <div class="mdl-tooltip" data-mdl-for="btn-add-generator">ジェネレーター追加</div>
+            <button class="btn-edit" id="btn-edit"><i class="fa fa-mouse-pointer" aria-hidden="true"></i></button>
+            <div class="mdl-tooltip" data-mdl-for="btn-edit">頂点編集</div>
+            <button class="btn-undo under-construction" disabled><i class="fa fa-arrows" aria-hidden="true"></i></button>
+            <button class="btn-redo under-construction" disabled><i class="fa fa-undo" aria-hidden="true"></i></button>
+            <button class="btn-move under-construction" disabled><i class="fa fa-repeat" aria-hidden="true"></i></button>
+            <button class="btn-zoom-out under-construction" disabled><i class="fa fa-search-minus" aria-hidden="true"></i></button>
+            <button class="btn-zoom-in under-construction" disabled><i class="fa fa-search-plus" aria-hidden="true"></i></button>
+          </div>
           <label class="snap mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-snap">
             <input class="mdl-checkbox__input" id="checkbox-snap" type="checkbox" data-js-class="snap"><span class="mdl-checkbox__label">グリッドにスナップ</span>
           </label>
