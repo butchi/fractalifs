@@ -156,6 +156,7 @@ body.page-index {
     left: 10px;
     top: 10px; }
     body.page-index .panel .snap {
-      width: auto; }
+      width: auto;
+      margin-left: 20px; }
     body.page-index .panel .preset {
       display: block; }
