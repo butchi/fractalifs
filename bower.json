@@ -1,5 +1,5 @@
 {
-  "name": "ifs-js",
+  "name": "fractalifs",
   "version": "0.0.0",
   "description": "IFS fractal with JavaScript.",
   "main": "docs/js/script.js",
@@ -11,7 +11,7 @@
     "fractal"
   ],
   "moduleType": [],
-  "homepage": "http://butchi.jp/",
+  "homepage": "http://butchi.github.io/fractalifs/",
   "ignore": [
     "**/.*",
     "node_modules",

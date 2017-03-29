@@ -1,6 +1,6 @@
 {
-  "name": "ifs-js",
-  "version": "0.0.0",
+  "name": "fractalifs",
+  "version": "0.1.0",
   "description": "IFS fractal with JavaScript.",
   "main": "gulpfile.babel.js",
   "engines": {

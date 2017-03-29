@@ -1,7 +1,7 @@
 site_name: fractalifs
 description: IFSからフラクタルを生成するWebアプリケーションです。
 keywords: ['フラクタル', 'IFS', '反復関数系', '数学']
-url: http://butchi.github.io/ifs-js/
+url: http://butchi.github.io/fractalifs/
 # facebook_app_id": 
-ogp_image_url: http://butchi.github.io/ifs-js/ogp.png
-favicon_url: /ifs-js/favicon.ico
+ogp_image_url: http://butchi.github.io/fractalifs/ogp.png
+favicon_url: /fractalifs/favicon.ico
